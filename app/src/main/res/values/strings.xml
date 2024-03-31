@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">final_project</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="username">Username</string>
+    <string name="pet_owner">Pet Owner</string>
+    <string name="shelter_owner">Shelter Owner</string>
+    <string name="register">Register</string>
+    <string name="login">Login</string>
+</resources>

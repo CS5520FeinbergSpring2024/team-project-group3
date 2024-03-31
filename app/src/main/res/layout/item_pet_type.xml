@@ -1,0 +1,29 @@
+<!-- item_animal_type.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="16dp">
+
+    <!-- Image Placeholder -->
+    <ImageView
+        android:id="@+id/petTypeImage"
+        android:layout_width="162dp"
+        android:layout_height="100dp"
+        android:layout_marginEnd="16dp"
+        android:clickable="true"
+        android:onClick="onImageClicked"
+        android:src="@drawable/cat_type" /> <!-- Set the onClick attribute -->
+
+    <!-- Text Placeholder -->
+    <TextView
+        android:id="@+id/petTypeName"
+        android:layout_width="144dp"
+        android:layout_height="63dp"
+        android:layout_weight="1"
+        android:text="Placeholder Text"
+        android:textSize="18sp" />
+
+</LinearLayout>
+
+
