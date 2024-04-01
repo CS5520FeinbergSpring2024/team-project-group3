@@ -15,7 +15,7 @@
 (March 31th) summary:
 * Created a shelter detail page, adoptable pet list page and a pet detail page.
 * Adding extra pet is simple: add required elements in that shelter.
-* Solved Github conflict.
+* After adding back Sadok's code, the app has authentication problem, so a new branch is created to prevent overriding the functioning code.
 
 * * Next Tasks for Dakota: 
   * UI.

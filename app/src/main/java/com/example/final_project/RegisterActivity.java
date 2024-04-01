@@ -28,11 +28,11 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         editTextEmail = findViewById(R.id.editTextEmail);
-//        editTextPassword = findViewById(R.id.editTextPassword);
-//        editTextUsername = findViewById(R.id.editTextUsername);
-//        radioButtonShelterOwner = findViewById(R.id.radioButtonShelterOwner);
-//        radioButtonPetOwner = findViewById(R.id.radioButtonPetOwner);
-//        buttonRegister = findViewById(R.id.buttonRegister);
+        editTextPassword = findViewById(R.id.editTextPassword);
+        editTextUsername = findViewById(R.id.editTextUsername);
+        radioButtonShelterOwner = findViewById(R.id.radioButtonShelterOwner);
+        radioButtonPetOwner = findViewById(R.id.radioButtonPetOwner);
+        buttonRegister = findViewById(R.id.buttonRegister);
 
         auth = FirebaseAuth.getInstance();
         firestore = FirebaseFirestore.getInstance();
@@ -76,3 +76,4 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 }
+

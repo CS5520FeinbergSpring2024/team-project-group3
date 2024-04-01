@@ -25,7 +25,7 @@ public class PetOwnerViewActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Intent to navigate to BrowseSheltersActivity
-//                startActivity(new Intent(PetOwnerViewActivity.this, ShelterListActivity.class));
+                startActivity(new Intent(PetOwnerViewActivity.this, ShelterListActivity.class));
             }
         });
 
