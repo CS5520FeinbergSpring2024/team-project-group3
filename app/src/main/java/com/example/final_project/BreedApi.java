@@ -1,8 +1,6 @@
 package com.example.final_project;
 
-import android.content.Context;
 import android.util.Log;
-import android.widget.ListView;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -23,13 +21,13 @@ public class BreedApi {
     private ExecutorService executorService = Executors.newSingleThreadExecutor();
 
     public interface FetchBreedDataCallback {
-        void onDataFetched(List<petData> petDataList);
+        void onDataFetched(List<breedData> breedDataList);
     }
 
     // API link:
     // https://developers.thecatapi.com/view-account/ylX4blBYT9FaoVd6OhvR?report=aZyiLrsCh#tag/Breeds/paths/~1breeds~1search/get
     public void fetchBreedData(String petType, FetchBreedDataCallback callback) {
-        List<petData> petDataList = new ArrayList<>();
+        List<breedData> breedDataList = new ArrayList<>();
         executorService.execute(() -> {
             try {
                 String apiKey = "live_xouvzjH87bpes6UKhI4UKrLZkocBcRvfBiUcxFkyahpiBB6yQ931zs4n8q6lAw9a";
@@ -67,15 +65,15 @@ public class BreedApi {
                     }
 
                     // create a new object for each breed.
-                    petData petData = new petData(
+                    breedData breedData = new breedData(
                             petType,
                             jsonObject.getString("name"),
                             des,
                             id
                     );
-//                    Log.d("Pet Breed data: ", petData.getBreed() + " " + petData.getImageURL() + " " + petData.getDescription());
-                    petDataList.add(petData);
-                    callback.onDataFetched(petDataList);
+//                    Log.d("Pet Breed data: ", breedData.getBreed() + " " + breedData.getImageURL() + " " + breedData.getDescription());
+                    breedDataList.add(breedData);
+                    callback.onDataFetched(breedDataList);
                 }
 
             } catch (Exception e) {

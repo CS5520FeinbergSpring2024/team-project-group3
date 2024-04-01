@@ -1,80 +1,64 @@
 package com.example.final_project;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.ListView;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
-import org.checkerframework.checker.nullness.qual.NonNull;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.bumptech.glide.Glide;
 
 /**
- * shelter activity that is displayed on shelter page.
+ * Shelter detail.
  */
 
 public class ShelterActivity extends AppCompatActivity {
-
-    private ListView listViewShelters;
-    private ShelterListAdapter shelterListAdapter;
-    private List<shelterData> shelterDataList;
+    private TextView shelterNameText;
+    private ImageView shelterImage;
+    private TextView descriptionText;
+    private Button petsButton;
+    private TextView addressText;
+    private TextView phoneText;
 
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shelter);
+        shelterData shelterData = getIntent().getParcelableExtra("shelterData");
+//        for(petData p : shelterData.getAdoptablePets()) {
+//            Log.d("price of petdata", p.getPrice());
+//        }
 
-        //initialize views, list, strings, database.
-        listViewShelters = findViewById(R.id.listViewShelter);
-        shelterDataList = new ArrayList<>();
+        shelterNameText = findViewById(R.id.shelter_name_text);
+        shelterImage = findViewById(R.id.shelter_image);
+        descriptionText = findViewById(R.id.description_text);
+        petsButton = findViewById(R.id.adoption_button);
+        addressText = findViewById(R.id.address_text);
+        phoneText = findViewById(R.id.phone_number_text);
 
-        String breedName = getIntent().getStringExtra("breed_name");
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        shelterNameText.setText(shelterData.getName());
+        descriptionText.setText(shelterData.getDescription());
+        addressText.setText("Address: " + shelterData.getAddress());
+        phoneText.setText("Phone Number: " + shelterData.getPhoneNumber());
 
-        DatabaseReference databaseReference = database.getReference("shelters");
+        Glide.with(ShelterActivity.this)
+                .load(shelterData.getImageUrl())
+                .placeholder(R.drawable.brokenlink)
+                .into(shelterImage);
 
-        // Add ValueEventListener to fetch shelter data
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        petsButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                shelterDataList.clear();
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    String shelterName = snapshot.child("name").getValue(String.class);
-                    String imageUrl = snapshot.child("imageUrl").getValue(String.class);
-                    String location = snapshot.child("location").getValue(String.class);
-
-                    List<String> breeds = new ArrayList<>();
-                    for (DataSnapshot breedSnapshot : snapshot.child("breeds").getChildren()) {
-                        String breedValue = breedSnapshot.getValue(String.class);
-                        breeds.add(breedValue);
-                    }
-                    // attach shelter elements to the new shelter object so that it can be added to the list and create the listView
-                    // if it matches certain criteria.
-                    shelterData s = new shelterData(shelterName, location, imageUrl, breeds);
-                    if (s.containBreed(breedName)) {
-                        shelterDataList.add(s);
-                        shelterListAdapter = new ShelterListAdapter(ShelterActivity.this, shelterDataList);
-                        listViewShelters.setAdapter(shelterListAdapter);
-                    }
-
-                }
-
-                Log.d("OnDataChange Shelter activity list", "triggered");
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                // Handle error
-                Log.e("Firebase error", "Failed to read value.", databaseError.toException());
+            public void onClick(View v) {
+                Intent intent = new Intent(ShelterActivity.this, PetAdoptableActivity.class);
+                intent.putExtra("shelterData", shelterData);
+                ShelterActivity.this.startActivity(intent);
             }
         });
+
 
     }
 }

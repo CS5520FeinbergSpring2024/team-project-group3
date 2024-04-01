@@ -58,6 +58,8 @@ public class BreedViewActivity extends AppCompatActivity {
                 }
                 // Create and set the adapter
                 adapter = new PetTypeAdapter(BreedViewActivity.this, petTypes);
+                LinearLayoutManager layoutManager = new LinearLayoutManager(BreedViewActivity.this, LinearLayoutManager.HORIZONTAL, false);
+                recyclerView.setLayoutManager(layoutManager);
                 recyclerView.setAdapter(adapter);
 //                Log.d("OnDataChange", "triggered");
             }
@@ -71,13 +73,14 @@ public class BreedViewActivity extends AppCompatActivity {
 
     /**
      * Update breed list (is called in the PetTypeAdapter)
-     * @param petDataList list that contains breed objects.
+     * @param breedDataList list that contains breed objects.
      */
-    public void updateListView(List<petData> petDataList) {
+    public void updateListView(List<breedData> breedDataList) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                PetListAdapter adapter = new PetListAdapter(BreedViewActivity.this, petDataList);
+
+                BreedListAdapter adapter = new BreedListAdapter(BreedViewActivity.this, breedDataList);
                 adapter.notifyDataSetChanged();
                 listView.setAdapter(adapter);
             }

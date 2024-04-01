@@ -1,8 +1,7 @@
 package com.example.final_project;
 
-import android.app.Activity;
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -87,13 +86,14 @@ public class PetTypeAdapter extends RecyclerView.Adapter<PetTypeAdapter.PetTypeV
          * Binds elements to the views in the ViewHolder.
          * @param petType The PetType object containing data to be displayed.
          */
+        @SuppressLint("SetTextI18n")
         public void bind(final PetType petType) {
-            petName.setText(petType.getName());
+            petName.setText(petType.getName().toUpperCase());
             int resourceId = itemView.getContext().getResources().getIdentifier(petType.getImageUrl(), "drawable", itemView.getContext().getPackageName());
             if (resourceId != 0) {
                 petImage.setImageResource(resourceId);
             } else {
-                petImage.setImageResource(R.drawable.ic_launcher_foreground);
+                petImage.setImageResource(R.drawable.brokenlink);
             }
 
             // make pet image clickable and call api methods to fetch data.
@@ -103,9 +103,9 @@ public class PetTypeAdapter extends RecyclerView.Adapter<PetTypeAdapter.PetTypeV
                     BreedApi api = new BreedApi();
                     api.fetchBreedData(petType.getName(), new BreedApi.FetchBreedDataCallback() {
                         @Override
-                        public void onDataFetched(List<petData> petDataList) {
+                        public void onDataFetched(List<breedData> breedDataList) {
                             BreedViewActivity act = (BreedViewActivity) itemView.getContext();
-                            act.updateListView(petDataList);
+                            act.updateListView(breedDataList);
 
                         }
                     });

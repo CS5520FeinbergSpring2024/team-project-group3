@@ -1,6 +1,7 @@
 package com.example.final_project;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,6 +48,17 @@ public class ShelterListAdapter extends ArrayAdapter<shelterData> {
                 .load(currentShelterData.getImageUrl())
                 .placeholder(R.drawable.brokenlink)
                 .into(shelterImageView);
+
+        listItemView.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                shelterData currentShelterData = getItem(position);
+                Intent intent = new Intent(getContext(), ShelterActivity.class);
+                intent.putExtra("shelterData", currentShelterData);
+                getContext().startActivity(intent);
+            }
+        });
 
         return listItemView;
 

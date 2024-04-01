@@ -1,3 +1,4 @@
+<!-- list_item_pet.xml -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -5,7 +6,7 @@
     android:padding="16dp">
 
     <ImageView
-        android:id="@+id/image_view_shelter"
+        android:id="@+id/image_view_pet"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:scaleType="centerCrop"
@@ -19,20 +20,20 @@
         android:layout_marginStart="16dp">
 
         <TextView
-            android:id="@+id/text_view_shelter_name"
+            android:id="@+id/text_view_pet_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/roboto_bold"
-            android:text="Shelter Name"
+            android:fontFamily="@font/roboto"
+            android:text="Pet Name"
             android:textSize="20sp"
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/text_view_shelter_location"
+            android:id="@+id/text_view_pet_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto"
-            android:text="Location"
+            android:text="Pet Description"
             android:textSize="14sp" />
 
     </LinearLayout>
