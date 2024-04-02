@@ -1,0 +1,20 @@
+<resources>
+    <color name="primaryColor">#FFB562</color>
+    <color name="primaryDarkColor">#E68634</color>
+    <color name="onPrimaryColor">#000000</color>
+    <color name="secondaryColor">#00BCD4</color>
+    <color name="secondaryDarkColor">#00838F</color>
+    <color name="warm_orange">#FF9933</color>  <color name="light_orange">#FFA500</color>
+    <color name="dark_orange">#E68634</color>
+    <color name="light_cream">#F8F8F8</color>
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="gray">#808080</color>
+    <color name="lightGray">#D0D0D0</color>
+    <color name="darkGray">#232323</color>
+    <color name="neutralBackground">#F8F8F8</color>
+    <color name="darkerOrange">#CC6600</color>
+    <color name="darker_orange">#CC6600</color>
+    <color name="dark_gray">#424242</color>
+    <color name="light_gray">#BDBDBD</color>
+</resources>
