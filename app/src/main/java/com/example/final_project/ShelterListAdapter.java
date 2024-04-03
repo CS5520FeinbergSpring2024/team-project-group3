@@ -5,62 +5,50 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-
-import com.bumptech.glide.Glide;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-import javax.annotation.Nullable;
+public class ShelterListAdapter extends RecyclerView.Adapter<ShelterListItemViewHolder> {
 
-/**
- * adapter that binds shelter data to create list items.
- */
-public class ShelterListAdapter extends ArrayAdapter<shelterData> {
+    private Context context;
+    private List<shelterData> shelterDataList;
 
     public ShelterListAdapter(Context context, List<shelterData> shelterDataList) {
-        super(context, 0, shelterDataList);
+        this.context = context;
+        this.shelterDataList = shelterDataList;
     }
 
     @NonNull
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        View listItemView = convertView;
-        if (listItemView == null) {
-            listItemView = LayoutInflater.from(getContext()).inflate(R.layout.list_item_shelter, parent, false);
-        }
-        shelterData currentShelterData = getItem(position);
+    @Override
+    public ShelterListItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View listItemView = LayoutInflater.from(context).inflate(R.layout.list_item_shelter, parent, false);
+        return new ShelterListItemViewHolder(listItemView);
+    }
 
-        // initialize all the views.
-        TextView shelterNameTextView = listItemView.findViewById(R.id.text_view_shelter_name);
-        TextView shelterLocationTextView = listItemView.findViewById(R.id.text_view_shelter_location);
-        ImageView shelterImageView = listItemView.findViewById(R.id.image_view_shelter);
+    @Override
+    public void onBindViewHolder(@NonNull ShelterListItemViewHolder holder, int position) {
+        shelterData currentShelterData = shelterDataList.get(position);
+        holder.bindData(currentShelterData);
 
-        // bind data to the views.
-        shelterNameTextView.setText(currentShelterData.getName());
-        shelterLocationTextView.setText(currentShelterData.getLocation());
-
-        // Load pet image using Glide
-        Glide.with(getContext())
-                .load(currentShelterData.getImageUrl())
-                .placeholder(R.drawable.brokenlink)
-                .into(shelterImageView);
-
-        listItemView.setOnClickListener(new View.OnClickListener(){
-
-            @Override
-            public void onClick(View v) {
-                shelterData currentShelterData = getItem(position);
-                Intent intent = new Intent(getContext(), ShelterActivity.class);
-                intent.putExtra("shelterData", currentShelterData);
-                getContext().startActivity(intent);
-            }
+        // Item click listener to view shelter details
+        holder.itemView.setOnClickListener(view -> {
+            Intent intent = new Intent(context, ShelterActivity.class);
+            intent.putExtra("shelterData", currentShelterData);
+            context.startActivity(intent);
         });
+    }
 
-        return listItemView;
+    @Override
+    public int getItemCount() {
+        return shelterDataList.size();
+    }
 
+    // Method to update the list of shelters
+    public void setShelterList(List<shelterData> shelterDataList) {
+        this.shelterDataList = shelterDataList;
+        notifyDataSetChanged(); // Notify the RecyclerView about data changes
     }
 }

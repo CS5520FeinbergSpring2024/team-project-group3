@@ -5,6 +5,17 @@
 # Please read carefully before making further modifications to the App.
 # Please read carefully before making further modifications to the App.
 
+
+# CAUTION:
+
+Make sure to pass the petId of the pet for which the application is being made to 
+AdoptionApplicationActivity when navigating from PetDetailActivity or any other relevant part of 
+the app:
+
+Intent intent = new Intent(CurrentActivity.this, AdoptionApplicationActivity.class);
+intent.putExtra("petId", petId); // Ensure petId is correctly retrieved and passed here
+startActivity(intent);
+
 ### Dakota's work Log
 (March 29th - March 30th) summary:
 * Changed Firebase rules so that firebase work successfully with activities.
@@ -24,6 +35,29 @@
   * Add loading display to the recycler view until it loads.
   * Add more data to the database.
 
+
+### Sadok Belakhoua work Log
+
+(March 15th recap):
+* Created MainActivity, LoginActivity, RegisterActivity, User
+* Created Firebase repo and set initial schema
+* Set design language and feel of app through Material Design
+
+(April 1st update recap):
+
+Significant update: 
+
+* Added a Lesson object, AdoptionLessonActivity, LessonsAdapter, and UserLessonProgress
+* Added lessons to Firebase
+* Changed Shelteractivity and added new "breedlist" field to the shelter schema to improve query performance
+* Created the PetDetailActivity, PetListActivity, and their PetsAdapter for the recyclerview
+* Created a PreferencesUtil file 
+* Created a ShelterList item view holder and model
+* Expanded shelterData with BreedList field and getter
+* Created a ShelterRepository object
+* Greatly expanded the User object
+* Added a UserLessonProgress class
+* Added an AdoptionApplicationActivity class 
 
 ## Installation
 

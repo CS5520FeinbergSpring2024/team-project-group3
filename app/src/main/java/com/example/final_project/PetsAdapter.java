@@ -1,0 +1,79 @@
+package com.example.final_project;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+import com.bumptech.glide.Glide;
+import java.util.List;
+
+public class PetsAdapter extends RecyclerView.Adapter<PetsAdapter.ViewHolder> {
+
+    private final Context context;
+    private final List<petData> petList;
+    private final OnPetClickListener clickListener;
+
+    public PetsAdapter(Context context, List<petData> petList, OnPetClickListener clickListener) {
+        this.context = context;
+        this.petList = petList;
+        this.clickListener = clickListener;
+    }
+
+    @NonNull
+    @Override
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(context).inflate(R.layout.item_pet_type, parent, false);
+        return new ViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        petData pet = petList.get(position);
+        holder.petName.setText(pet.getName());
+        holder.petBreed.setText(pet.getBreed());
+
+        // Use Glide to load the pet image dynamically from a URL provided by the pet data
+        Glide.with(context)
+                .load(pet.getImageUrl())
+                .placeholder(R.drawable.dog_type) // Fallback image
+                .into(holder.petImage);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (clickListener != null) {
+                    petData pet = petList.get(holder.getAdapterPosition());
+                    clickListener.onPetClick(pet);
+                }
+            }
+        });
+    }
+
+    @Override
+    public int getItemCount() {
+        return petList != null ? petList.size() : 0;
+    }
+
+    public interface OnPetClickListener {
+        void onPetClick(petData pet);
+    }
+
+
+
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        TextView petName, petBreed;
+        ImageView petImage;
+
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+            petName = itemView.findViewById(R.id.pet_name);
+            petBreed = itemView.findViewById(R.id.pet_breed);
+            petImage = itemView.findViewById(R.id.pet_image);
+        }
+    }
+}
+

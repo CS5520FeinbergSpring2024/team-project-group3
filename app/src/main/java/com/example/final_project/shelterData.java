@@ -8,24 +8,24 @@ import androidx.annotation.NonNull;
 import java.util.List;
 
 /**
- * data for a shelter object.
+ * Data for a shelter object.
  */
 public class shelterData implements Parcelable {
     private String name;
     private String location;
     private String imageUrl;
     private List<String> breeds;
-
     private String description;
     private String phoneNumber;
     private String address;
     private String yearOfBusiness;
     private List<petData> adoptablePets;
 
+    // Default constructor
     public shelterData() {
-
     }
 
+    // Constructor with parameters
     public shelterData(String name, String location, String imageUrl, List<String> breeds,
                        String description, String phoneNumber, String address, String yearOfBusiness, List<petData> adoptablePets) {
         this.name = name;
@@ -39,16 +39,21 @@ public class shelterData implements Parcelable {
         this.adoptablePets = adoptablePets;
     }
 
+    // Getters
     public String getName() {
-        return this.name;
-    }
-
-    public String getImageUrl() {
-        return this.imageUrl;
+        return name;
     }
 
     public String getLocation() {
-        return this.location;
+        return location;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public List<String> getBreeds() {
+        return breeds;
     }
 
     public String getDescription() {
@@ -71,29 +76,17 @@ public class shelterData implements Parcelable {
         return adoptablePets;
     }
 
-    /**
-     * This method is called to evaluate if the breed that is selected is in a shelter.
-     * @param breedName
-     * @return
-     */
-    public boolean containBreed(String breedName) {
-//        Log.d("Breeds list", String.valueOf(breeds.size()));
-//        Log.d("location", this.getLocation());
-        for (String breed : breeds) {
-//            Log.d("breed Name", breedName);
-//            Log.d("breed in-comparison", breed);
-            if (breed.equalsIgnoreCase(breedName)) {
-                return true;
-            }
-        }
-//        Log.d("clicked contain breed", "ah");
-        return false;
+    // Method to check if a shelter contains a specific breed
+    public boolean containsBreed(String breedName) {
+        return breeds != null && breeds.contains(breedName);
     }
 
+    // Parcelable implementation
     @Override
     public int describeContents() {
         return 0;
     }
+
     @Override
     public void writeToParcel(@NonNull Parcel dest, int flags) {
         dest.writeString(name);
@@ -131,3 +124,4 @@ public class shelterData implements Parcelable {
         }
     };
 }
+
