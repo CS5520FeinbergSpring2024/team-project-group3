@@ -53,11 +53,18 @@ Significant update:
 * Created the PetDetailActivity, PetListActivity, and their PetsAdapter for the recyclerview
 * Created a PreferencesUtil file 
 * Created a ShelterList item view holder and model
-* Expanded shelterData with BreedList field and getter
+* Expanded Shelter with BreedList field and getter
 * Created a ShelterRepository object
 * Greatly expanded the User object
 * Added a UserLessonProgress class
 * Added an AdoptionApplicationActivity class 
+
+(April 3rd update recap):
+
+* Created the AddPetActivity and LessonDetailActivity classes
+* Added ManageSheltersActivity, ShelterAdapter, ShelterDetailActivity, ViewadoptionsActivity and ShelterRegistrationActivity
+* Renamed petData to Pet, shelterData to Shelter
+* Created lesson content for 3 lessons
 
 ## Installation
 
@@ -150,7 +157,7 @@ check BreedAPI: apiKey
   -
 - pet type: PetType.java: the types of pets are stored in firebase as "pet_types".
 - breed data: breedData.java: the breed information pulled using API (check API section for more details).
-- shelter Data: shelterData.java: the shelter information that are stored in firebase as "shelters".
+- shelter Data: Shelter.java: the shelter information that are stored in firebase as "shelters".
   - Parcelable
 - pet data: petData.java: the pet information that are stored in shelters.
   - petType can be used to filter pet data if needed.

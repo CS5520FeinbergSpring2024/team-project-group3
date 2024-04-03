@@ -14,11 +14,11 @@ import java.util.List;
 public class ShelterListAdapter extends RecyclerView.Adapter<ShelterListItemViewHolder> {
 
     private Context context;
-    private List<shelterData> shelterDataList;
+    private List<Shelter> shelterList;
 
-    public ShelterListAdapter(Context context, List<shelterData> shelterDataList) {
+    public ShelterListAdapter(Context context, List<Shelter> shelterList) {
         this.context = context;
-        this.shelterDataList = shelterDataList;
+        this.shelterList = shelterList;
     }
 
     @NonNull
@@ -30,25 +30,25 @@ public class ShelterListAdapter extends RecyclerView.Adapter<ShelterListItemView
 
     @Override
     public void onBindViewHolder(@NonNull ShelterListItemViewHolder holder, int position) {
-        shelterData currentShelterData = shelterDataList.get(position);
-        holder.bindData(currentShelterData);
+        Shelter currentShelter = shelterList.get(position);
+        holder.bindData(currentShelter);
 
         // Item click listener to view shelter details
         holder.itemView.setOnClickListener(view -> {
             Intent intent = new Intent(context, ShelterActivity.class);
-            intent.putExtra("shelterData", currentShelterData);
+            intent.putExtra("shelterData", currentShelter);
             context.startActivity(intent);
         });
     }
 
     @Override
     public int getItemCount() {
-        return shelterDataList.size();
+        return shelterList.size();
     }
 
     // Method to update the list of shelters
-    public void setShelterList(List<shelterData> shelterDataList) {
-        this.shelterDataList = shelterDataList;
+    public void setShelterList(List<Shelter> shelterList) {
+        this.shelterList = shelterList;
         notifyDataSetChanged(); // Notify the RecyclerView about data changes
     }
 }

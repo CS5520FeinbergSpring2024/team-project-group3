@@ -14,10 +14,10 @@ import java.util.List;
 public class PetsAdapter extends RecyclerView.Adapter<PetsAdapter.ViewHolder> {
 
     private final Context context;
-    private final List<petData> petList;
+    private final List<Pet> petList;
     private final OnPetClickListener clickListener;
 
-    public PetsAdapter(Context context, List<petData> petList, OnPetClickListener clickListener) {
+    public PetsAdapter(Context context, List<Pet> petList, OnPetClickListener clickListener) {
         this.context = context;
         this.petList = petList;
         this.clickListener = clickListener;
@@ -32,7 +32,7 @@ public class PetsAdapter extends RecyclerView.Adapter<PetsAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        petData pet = petList.get(position);
+        Pet pet = petList.get(position);
         holder.petName.setText(pet.getName());
         holder.petBreed.setText(pet.getBreed());
 
@@ -46,7 +46,7 @@ public class PetsAdapter extends RecyclerView.Adapter<PetsAdapter.ViewHolder> {
             @Override
             public void onClick(View v) {
                 if (clickListener != null) {
-                    petData pet = petList.get(holder.getAdapterPosition());
+                    Pet pet = petList.get(holder.getAdapterPosition());
                     clickListener.onPetClick(pet);
                 }
             }
@@ -59,7 +59,7 @@ public class PetsAdapter extends RecyclerView.Adapter<PetsAdapter.ViewHolder> {
     }
 
     public interface OnPetClickListener {
-        void onPetClick(petData pet);
+        void onPetClick(Pet pet);
     }
 
 

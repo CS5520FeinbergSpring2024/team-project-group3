@@ -20,12 +20,12 @@ public class PetListActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
 
-        shelterData selectedShelter = getIntent().getParcelableExtra("selectedShelter");
+        Shelter selectedShelter = getIntent().getParcelableExtra("selectedShelter");
         if (selectedShelter != null && selectedShelter.getAdoptablePets() != null) {
             // Define the click listener right here for clarity
             PetsAdapter.OnPetClickListener clickListener = new PetsAdapter.OnPetClickListener() {
                 @Override
-                public void onPetClick(petData pet) {
+                public void onPetClick(Pet pet) {
                     Intent intent = new Intent(PetListActivity.this, PetDetailActivity.class);
                     // Make sure petData class is Parcelable; seems to be, based on your implementation
                     intent.putExtra("petData", pet);

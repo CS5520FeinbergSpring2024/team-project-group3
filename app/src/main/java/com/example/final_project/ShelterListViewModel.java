@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel;
 import java.util.List;
 
 public class ShelterListViewModel extends ViewModel {
-    private MutableLiveData<List<shelterData>> shelterListLiveData = new MutableLiveData<>();
+    private MutableLiveData<List<Shelter>> shelterListLiveData = new MutableLiveData<>();
     private ShelterRepository shelterRepository;
 
     public ShelterListViewModel() {
@@ -17,7 +17,7 @@ public class ShelterListViewModel extends ViewModel {
     public void fetchSheltersByBreed(String breedName) {
         shelterRepository.fetchSheltersByBreed(breedName, new ShelterRepository.FetchSheltersCallback() {
             @Override
-            public void onSheltersFetched(List<shelterData> shelters) {
+            public void onSheltersFetched(List<Shelter> shelters) {
                 shelterListLiveData.postValue(shelters);
             }
 
@@ -28,7 +28,7 @@ public class ShelterListViewModel extends ViewModel {
         });
     }
 
-    public LiveData<List<shelterData>> getShelterListLiveData() {
+    public LiveData<List<Shelter>> getShelterListLiveData() {
         return shelterListLiveData;
     }
 }

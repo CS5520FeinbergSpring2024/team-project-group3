@@ -4,7 +4,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import androidx.annotation.NonNull;
@@ -25,9 +24,9 @@ public class ShelterRepository {
         sheltersRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                List<shelterData> shelterList = new ArrayList<>();
+                List<Shelter> shelterList = new ArrayList<>();
                 for (DataSnapshot shelterSnapshot : dataSnapshot.getChildren()) {
-                    shelterData shelter = shelterSnapshot.getValue(shelterData.class);
+                    Shelter shelter = shelterSnapshot.getValue(Shelter.class);
                     // Assuming breedList is stored as a list or set within the shelter object
                     if (shelter != null && shelter.getBreeds() != null && shelter.getBreeds().contains(breedName)) {
                         shelterList.add(shelter);
@@ -45,7 +44,7 @@ public class ShelterRepository {
     }
 
     public interface FetchSheltersCallback {
-        void onSheltersFetched(List<shelterData> shelters); // Use ShelterData, not shelterData
+        void onSheltersFetched(List<Shelter> shelters); // Use ShelterData, not shelterData
         void onSheltersFetchFailed(Exception e);
     }
 }

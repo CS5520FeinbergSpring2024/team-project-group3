@@ -24,7 +24,7 @@ public class ShelterListItemViewHolder extends RecyclerView.ViewHolder {
     }
 
     // Method to bind data to the views within a list item
-    public void bindData(shelterData shelter) {
+    public void bindData(Shelter shelter) {
         shelterNameTextView.setText(shelter.getName());
         shelterLocationTextView.setText(shelter.getLocation());
 

@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Data for a shelter object.
  */
-public class shelterData implements Parcelable {
+public class Shelter implements Parcelable {
     private String name;
     private String location;
     private String imageUrl;
@@ -19,15 +19,15 @@ public class shelterData implements Parcelable {
     private String phoneNumber;
     private String address;
     private String yearOfBusiness;
-    private List<petData> adoptablePets;
+    private List<Pet> adoptablePets;
 
     // Default constructor
-    public shelterData() {
+    public Shelter() {
     }
 
     // Constructor with parameters
-    public shelterData(String name, String location, String imageUrl, List<String> breeds,
-                       String description, String phoneNumber, String address, String yearOfBusiness, List<petData> adoptablePets) {
+    public Shelter(String name, String location, String imageUrl, List<String> breeds,
+                   String description, String phoneNumber, String address, String yearOfBusiness, List<Pet> adoptablePets) {
         this.name = name;
         this.location = location;
         this.imageUrl = imageUrl;
@@ -72,7 +72,7 @@ public class shelterData implements Parcelable {
         return yearOfBusiness;
     }
 
-    public List<petData> getAdoptablePets() {
+    public List<Pet> getAdoptablePets() {
         return adoptablePets;
     }
 
@@ -100,7 +100,7 @@ public class shelterData implements Parcelable {
         dest.writeTypedList(adoptablePets);
     }
 
-    protected shelterData(Parcel in) {
+    protected Shelter(Parcel in) {
         name = in.readString();
         location = in.readString();
         imageUrl = in.readString();
@@ -109,18 +109,18 @@ public class shelterData implements Parcelable {
         phoneNumber = in.readString();
         address = in.readString();
         yearOfBusiness = in.readString();
-        adoptablePets = in.createTypedArrayList(petData.CREATOR);
+        adoptablePets = in.createTypedArrayList(Pet.CREATOR);
     }
 
-    public static final Creator<shelterData> CREATOR = new Creator<shelterData>() {
+    public static final Creator<Shelter> CREATOR = new Creator<Shelter>() {
         @Override
-        public shelterData createFromParcel(Parcel in) {
-            return new shelterData(in);
+        public Shelter createFromParcel(Parcel in) {
+            return new Shelter(in);
         }
 
         @Override
-        public shelterData[] newArray(int size) {
-            return new shelterData[size];
+        public Shelter[] newArray(int size) {
+            return new Shelter[size];
         }
     };
 }

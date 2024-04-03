@@ -24,8 +24,8 @@ public class ShelterOwnerDashboardActivity extends AppCompatActivity {
         manageSheltersButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Intent to navigate to ManageSheltersActivity
-//                startActivity(new Intent(ShelterOwnerDashboardActivity.this, ManageSheltersActivity.class));
+
+                startActivity(new Intent(ShelterOwnerDashboardActivity.this, ManageSheltersActivity.class));
             }
         });
 
@@ -33,7 +33,7 @@ public class ShelterOwnerDashboardActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Intent to navigate to AddPetActivity
-//                startActivity(new Intent(ShelterOwnerDashboardActivity.this, AddPetActivity.class));
+                startActivity(new Intent(ShelterOwnerDashboardActivity.this, AddPetActivity.class));
             }
         });
 
@@ -41,7 +41,7 @@ public class ShelterOwnerDashboardActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Intent to navigate to ViewAdoptionsActivity
-//                startActivity(new Intent(ShelterOwnerDashboardActivity.this, ViewAdoptionsActivity.class));
+                startActivity(new Intent(ShelterOwnerDashboardActivity.this, ViewAdoptionsActivity.class));
             }
         });
     }

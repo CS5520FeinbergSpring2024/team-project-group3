@@ -1,16 +1,18 @@
 package com.example.final_project;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.List;
 
 public class LessonsAdapter extends RecyclerView.Adapter<LessonsAdapter.LessonViewHolder> {
-
     private List<Lesson> lessonsList;
     private Context context;
 
@@ -31,6 +33,12 @@ public class LessonsAdapter extends RecyclerView.Adapter<LessonsAdapter.LessonVi
         Lesson lesson = lessonsList.get(position);
         holder.title.setText(lesson.getTitle());
         holder.description.setText(lesson.getDescription());
+
+        holder.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(context, LessonDetailActivity.class);
+            intent.putExtra("lessonId", lesson.getLessonId());
+            context.startActivity(intent);
+        });
     }
 
     @Override
@@ -39,10 +47,9 @@ public class LessonsAdapter extends RecyclerView.Adapter<LessonsAdapter.LessonVi
     }
 
     static class LessonViewHolder extends RecyclerView.ViewHolder {
-        TextView title;
-        TextView description;
+        TextView title, description;
 
-        public LessonViewHolder(@NonNull View itemView) {
+        LessonViewHolder(@NonNull View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.lessonTitle);
             description = itemView.findViewById(R.id.lessonDescription);

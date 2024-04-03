@@ -17,6 +17,24 @@
         android:theme="@style/Theme.MyApp"
         tools:targetApi="31">
         <activity
+            android:name=".ViewAdoptionsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ShelterRegistrationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ShelterDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ManageSheltersActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AddPetActivity"
+            android:exported="false" />
+        <activity
+            android:name=".LessonDetailActivity"
+            android:exported="false" />
+        <activity
             android:name=".AdoptionApplicationActivity"
             android:exported="false" />
         <activity

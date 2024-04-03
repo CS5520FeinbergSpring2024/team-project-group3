@@ -2,7 +2,6 @@ package com.example.final_project;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -28,7 +27,7 @@ public class ShelterActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shelter);
-        shelterData shelterData = getIntent().getParcelableExtra("shelterData");
+        Shelter Shelter = getIntent().getParcelableExtra("shelterData");
 //        for(petData p : shelterData.getAdoptablePets()) {
 //            Log.d("price of petdata", p.getPrice());
 //        }
@@ -40,13 +39,13 @@ public class ShelterActivity extends AppCompatActivity {
         addressText = findViewById(R.id.address_text);
         phoneText = findViewById(R.id.phone_number_text);
 
-        shelterNameText.setText(shelterData.getName());
-        descriptionText.setText(shelterData.getDescription());
-        addressText.setText("Address: " + shelterData.getAddress());
-        phoneText.setText("Phone Number: " + shelterData.getPhoneNumber());
+        shelterNameText.setText(Shelter.getName());
+        descriptionText.setText(Shelter.getDescription());
+        addressText.setText("Address: " + Shelter.getAddress());
+        phoneText.setText("Phone Number: " + Shelter.getPhoneNumber());
 
         Glide.with(ShelterActivity.this)
-                .load(shelterData.getImageUrl())
+                .load(Shelter.getImageUrl())
                 .placeholder(R.drawable.brokenlink)
                 .into(shelterImage);
 
@@ -54,7 +53,7 @@ public class ShelterActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ShelterActivity.this, PetAdoptableActivity.class);
-                intent.putExtra("shelterData", shelterData);
+                intent.putExtra("shelterData", Shelter);
                 ShelterActivity.this.startActivity(intent);
             }
         });
