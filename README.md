@@ -27,18 +27,23 @@ Commented out broken files during work - ignored these files when committing (no
 - ViewAdoptionsActivity
 
 Fixed:
+
 Login and registration functionality
 - Any sort of login or registration attempt resulted in error Toast due to bad configuration
 - Edited Firebase configuration and methods, login and registration now functional
 - New google-services.json download necessary for functionality
 
 To do:
-Registration
+
+Login and Registration
 - Logging in with bad info spouts internal error toast - should be more user friendly / clearer message
+- Neither screen very usable in landscape mode
+
 Post-Login
 - After registration/login, user is brought to MainActivity
 - MainActivity holds two buttons (shelter vs pet user) that do not function - these need fixing
 - MainActivity should likely never be visible to users - can be auto-directed to proper side of app
+
 Check through remaining pet owner side files
 
 ### Dakota's work Log
