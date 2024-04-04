@@ -6,6 +6,97 @@
 # Please read carefully before making further modifications to the App.
 
 
+# App Scheme
+
+Common Entry Points:
+
+
+MainActivity.java X
+Serves as the initial screen post-login, directing users to either the shelter owner dashboard or the pet owner view based on their role.
+
+LoginActivity.java X
+Manages user login using Firebase Authentication.
+
+RegisterActivity.java X
+
+Handles user registration with Firebase Authentication, including role selection (shelter owner or pet owner).
+
+
+Shelter Owner Functionalities:
+
+ShelterOwnerDashboardActivity.java X
+Acts as the main hub for shelter owners, offering navigation to manage shelters, pets, view adoption applications, etc.
+
+ShelterRegistrationActivity.java X
+Allows shelter owners to register their shelter, including providing details like name, location, and description.
+
+PetRegistrationActivity.java X
+Enables shelter owners to add pets to their shelter, including details like name, type (e.g., dog, cat), description, and uploading pictures.
+
+PetManagementActivity.java X
+Allows for the management of pet details, including updating information or removing pets.
+
+ViewAdoptionsActivity.java X
+Where shelter owners review adoption applications submitted by potential pet owners and can approve or reject them.
+
+
+Pet Owner Functionalities:
+
+PetOwnerViewActivity.java X
+The main view for pet owners, featuring a dashboard or feed with featured shelters, pets for adoption, educational content, etc.
+
+ShelterListActivity.java X
+Displays a list of shelters for pet owners to browse through.
+
+ShelterDetailActivity.java X
+Shows detailed information about a selected shelter, including its location, description, and available pets.
+
+PetListActivity.java X
+Lists all available pets in a selected shelter, allowing pet owners to browse through potential pets for adoption.
+
+PetDetailActivity.java X
+Provides detailed information about a selected pet, including the option for pet owners to start an adoption application or chat with the shelter.
+
+AdoptionApplicationActivity.java
+Where pet owners fill out and submit their adoption application for a specific pet.
+
+AdoptionLessonActivity.java X
+Manages adoption education lessons for pet owners, ensuring they're prepared for pet adoption.
+
+CelebrationActivity.java
+A screen to celebrate successful adoption, shown after the adoption process is completed.
+
+
+Shared Functionalities:
+
+ChatActivity.java
+For real-time chatting between pet owners and shelter owners, facilitated by Firebase Realtime Database or Firestore.
+
+
+APIs and Services:
+
+
+Firebase Authentication:
+Handles user authentication, ensuring secure login and registration.
+
+Firebase Realtime Database or Firestore:
+Stores and retrieves data such as user roles, shelter details, pet information, chat messages, and adoption applications.
+
+Firebase Storage:
+Manages image and document storage, including pet pictures and adoption certificates.
+
+Firebase Cloud Functions:
+Executes backend code in response to Firebase events or HTTPS requests, useful for managing notifications, data processing, etc.
+
+Firebase Cloud Messaging:
+Sends push notifications about adoption process updates, new chat messages, or other relevant alerts.
+
+Firebase Analytics:
+Tracks user engagement, app usage, and can differentiate between shelter owner and pet owner activities for insights.
+
+Google Maps API:
+Displays maps for shelter locations, aiding pet owners in finding shelters near them.
+
 # CAUTION:
 
 Make sure to pass the petId of the pet for which the application is being made to 
@@ -95,6 +186,16 @@ Significant update:
 * Added ManageSheltersActivity, ShelterAdapter, ShelterDetailActivity, ViewadoptionsActivity and ShelterRegistrationActivity
 * Renamed petData to Pet, shelterData to Shelter
 * Created lesson content for 3 lessons
+
+(April 4th Update):
+
+* Created AdoptionApplication, PetManagementActivity and AdoptionApplicationAdapter
+* Created PetRegistrationActivity
+* Added Firebase Storage integration for the app
+* Updated ShelterOwnerDashboardActivity accordingly
+* Udated ViewAdoptionsActivity accordingly
+* Updated Firebase schema to better reflect app architecture and for better clarity and search performance
+* Deleted breed-related unnecessary code
 
 ## Installation
 

@@ -50,8 +50,9 @@ public class ViewAdoptionsActivity extends AppCompatActivity {
                         }
                         adapter.setAdoptionApplications(applications);
                     } else {
-                        Log.d("ViewAdoptionsActivity", "Error getting documents: ", task.getException());
+                        Log.e("ViewAdoptionsActivity", "Error getting documents: ", task.getException());
                     }
                 });
     }
 }
+

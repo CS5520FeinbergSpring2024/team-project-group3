@@ -11,6 +11,7 @@ public class ShelterOwnerDashboardActivity extends AppCompatActivity {
     private Button manageSheltersButton;
     private Button addPetsButton;
     private Button viewAdoptionsButton;
+    private Button managePetsButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,29 +21,15 @@ public class ShelterOwnerDashboardActivity extends AppCompatActivity {
         manageSheltersButton = findViewById(R.id.manageSheltersButton);
         addPetsButton = findViewById(R.id.addPetsButton);
         viewAdoptionsButton = findViewById(R.id.viewAdoptionsButton);
+        managePetsButton = findViewById(R.id.managePetsButton);
 
-        manageSheltersButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        manageSheltersButton.setOnClickListener(v -> startActivity(new Intent(ShelterOwnerDashboardActivity.this, ManageSheltersActivity.class)));
 
-                startActivity(new Intent(ShelterOwnerDashboardActivity.this, ManageSheltersActivity.class));
-            }
-        });
+        addPetsButton.setOnClickListener(v -> startActivity(new Intent(ShelterOwnerDashboardActivity.this, PetRegistrationActivity.class)));
 
-        addPetsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Intent to navigate to AddPetActivity
-                startActivity(new Intent(ShelterOwnerDashboardActivity.this, AddPetActivity.class));
-            }
-        });
+        viewAdoptionsButton.setOnClickListener(v -> startActivity(new Intent(ShelterOwnerDashboardActivity.this, ViewAdoptionsActivity.class)));
 
-        viewAdoptionsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Intent to navigate to ViewAdoptionsActivity
-                startActivity(new Intent(ShelterOwnerDashboardActivity.this, ViewAdoptionsActivity.class));
-            }
-        });
+        managePetsButton.setOnClickListener(v -> startActivity(new Intent(ShelterOwnerDashboardActivity.this, PetManagementActivity.class)));
     }
 }
+
