@@ -23,4 +23,10 @@
         android:layout_height="wrap_content"
         android:text="View Adoption Requests" />
 
+    <Button
+        android:id="@+id/managePetsButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Manage Pets" />
+
 </LinearLayout>
