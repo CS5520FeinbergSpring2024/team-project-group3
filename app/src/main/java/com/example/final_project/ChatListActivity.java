@@ -37,6 +37,7 @@ public class ChatListActivity extends AppCompatActivity {
         fetchChatList();
     }
 
+
     private void fetchChatList() {
         String currentUserId = auth.getCurrentUser().getUid();
         firestore.collection("Chats")
