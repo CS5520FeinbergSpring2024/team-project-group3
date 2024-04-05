@@ -208,6 +208,11 @@ Significant update:
 * Updated Firebase schema to better reflect app architecture and for better clarity and search performance
 * Deleted breed-related unnecessary code
 
+(April 5th Update):
+
+* Created all chat-related files
+* Changed Firebase database schema to allow for chat feature
+
 ## Installation
 
 Implement Glide to build.gradle.kts for adding web images (from api or webpage).
