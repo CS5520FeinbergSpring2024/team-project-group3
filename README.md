@@ -137,6 +137,17 @@ Post-Login
 
 Check through remaining pet owner side files
 
+April 5
+
+Commented out broken file during work - ignored this file when committing (no changes pushed):
+- ShelterListAdapter
+
+Changes:
+- Created new layout-land directory for activities where portrait layout is not usable in landscape
+- Created new layout for Login activity, now usable in landscape mode
+- Created new layout for Register activity, now usable in landscape mode
+
+
 ### Dakota's work Log
 (March 29th - March 30th) summary:
 * Changed Firebase rules so that firebase work successfully with activities.
