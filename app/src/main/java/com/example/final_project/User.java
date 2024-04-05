@@ -6,7 +6,7 @@ import java.util.Map;
 public class User {
     private String name;
     private String email;
-    private String role; // Added role field
+    private String role;
     private Map<String, Boolean> completedLessons;
 
     // Default constructor required for Firestore data fetching
