@@ -30,6 +30,7 @@ public class PetsAdapter extends RecyclerView.Adapter<PetsAdapter.ViewHolder> {
         return new ViewHolder(view);
     }
 
+
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Pet pet = petList.get(position);

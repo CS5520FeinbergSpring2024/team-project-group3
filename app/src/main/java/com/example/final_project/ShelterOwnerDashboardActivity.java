@@ -12,6 +12,7 @@ public class ShelterOwnerDashboardActivity extends AppCompatActivity {
     private Button addPetsButton;
     private Button viewAdoptionsButton;
     private Button managePetsButton;
+    private Button viewChatsButton; // New button for viewing chats
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +23,7 @@ public class ShelterOwnerDashboardActivity extends AppCompatActivity {
         addPetsButton = findViewById(R.id.addPetsButton);
         viewAdoptionsButton = findViewById(R.id.viewAdoptionsButton);
         managePetsButton = findViewById(R.id.managePetsButton);
+        viewChatsButton = findViewById(R.id.viewChatsButton); // Initialize the view chats button
 
         manageSheltersButton.setOnClickListener(v -> startActivity(new Intent(ShelterOwnerDashboardActivity.this, ManageSheltersActivity.class)));
 
@@ -30,6 +32,9 @@ public class ShelterOwnerDashboardActivity extends AppCompatActivity {
         viewAdoptionsButton.setOnClickListener(v -> startActivity(new Intent(ShelterOwnerDashboardActivity.this, ViewAdoptionsActivity.class)));
 
         managePetsButton.setOnClickListener(v -> startActivity(new Intent(ShelterOwnerDashboardActivity.this, PetManagementActivity.class)));
+
+        viewChatsButton.setOnClickListener(v -> startActivity(new Intent(ShelterOwnerDashboardActivity.this, ChatListActivity.class))); // Set the onClick listener for the view chats button
     }
 }
+
 

@@ -9,13 +9,15 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
+
 import java.util.List;
+import java.util.Locale;
 
 public class ShelterAdapter extends RecyclerView.Adapter<ShelterAdapter.ShelterViewHolder> {
 
     private List<Shelter> shelterList;
-    private Context context;
-    private OnShelterClickListener listener;
+    private final Context context;
+    private final OnShelterClickListener listener;
 
     public interface OnShelterClickListener {
         void onShelterClicked(Shelter shelter);
@@ -27,18 +29,26 @@ public class ShelterAdapter extends RecyclerView.Adapter<ShelterAdapter.ShelterV
         this.listener = listener;
     }
 
+    @Override
+    public void onBindViewHolder(@NonNull ShelterViewHolder holder, int position) {
+        Shelter shelter = shelterList.get(position);
+        holder.bind(context, shelter, listener);
+    }
+
+
     @NonNull
     @Override
     public ShelterViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.shelter_item, parent, false);
-        return new ShelterViewHolder(view, listener);
+        return new ShelterViewHolder(view);
     }
 
-    @Override
-    public void onBindViewHolder(@NonNull ShelterViewHolder holder, int position) {
-        Shelter shelter = shelterList.get(position);
-        holder.bind(shelter);
+    // Method to update the list of shelters and refresh the RecyclerView
+    public void setShelterList(List<Shelter> newShelterList) {
+        this.shelterList = newShelterList;
+        notifyDataSetChanged(); // Notify the adapter to refresh the RecyclerView
     }
+
 
     @Override
     public int getItemCount() {
@@ -50,25 +60,20 @@ public class ShelterAdapter extends RecyclerView.Adapter<ShelterAdapter.ShelterV
         TextView locationTextView;
         ImageView imageView;
 
-        ShelterViewHolder(View itemView, OnShelterClickListener listener) {
+        ShelterViewHolder(View itemView) {
             super(itemView);
             nameTextView = itemView.findViewById(R.id.shelterNameTextView);
             locationTextView = itemView.findViewById(R.id.shelterLocationTextView);
             imageView = itemView.findViewById(R.id.shelterImageView);
-
-            itemView.setOnClickListener(v -> {
-                int position = getAdapterPosition();
-                if (listener != null && position != RecyclerView.NO_POSITION) {
-                    listener.onShelterClicked((Shelter) itemView.getTag());
-                }
-            });
         }
 
-        void bind(Shelter shelter) {
+        void bind(Context context, Shelter shelter, OnShelterClickListener listener) {
             nameTextView.setText(shelter.getName());
             locationTextView.setText(shelter.getLocation());
-            Glide.with(itemView.getContext()).load(shelter.getImageUrl()).into(imageView);
-            itemView.setTag(shelter); // Set the shelter as the tag for the View
+            Glide.with(context).load(shelter.getImageUrl()).into(imageView);
+            itemView.setOnClickListener(v -> listener.onShelterClicked(shelter));
         }
     }
+
 }
+

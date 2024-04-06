@@ -35,7 +35,7 @@ public class ShelterListAdapter extends RecyclerView.Adapter<ShelterListItemView
 
         // Item click listener to view shelter details
         holder.itemView.setOnClickListener(view -> {
-            Intent intent = new Intent(context, ShelterActivity.class);
+            Intent intent = new Intent(context, ShelterDetailActivity.class);
             intent.putExtra("shelterData", currentShelter);
             context.startActivity(intent);
         });
