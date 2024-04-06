@@ -7,6 +7,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.List;
+
 public class PetListActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private PetsAdapter adapter;
@@ -20,25 +22,24 @@ public class PetListActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
 
+        // Inside onCreate method of PetListActivity
         Shelter selectedShelter = getIntent().getParcelableExtra("selectedShelter");
-        if (selectedShelter != null && selectedShelter.getAdoptablePets() != null) {
-            // Define the click listener right here for clarity
-            PetsAdapter.OnPetClickListener clickListener = new PetsAdapter.OnPetClickListener() {
-                @Override
-                public void onPetClick(Pet pet) {
+        if (selectedShelter != null) {
+            List<Pet> pets = selectedShelter.getAdoptablePets();
+            if (pets != null && !pets.isEmpty()) {
+                adapter = new PetsAdapter(pets, pet -> {
                     Intent intent = new Intent(PetListActivity.this, PetDetailActivity.class);
-                    // Make sure petData class is Parcelable; seems to be, based on your implementation
                     intent.putExtra("petData", pet);
                     startActivity(intent);
-                }
-            };
-
-            // Pass the adoptable pets and the click listener to the adapter
-            adapter = new PetsAdapter(this, selectedShelter.getAdoptablePets(), clickListener);
-            recyclerView.setAdapter(adapter);
+                });
+                recyclerView.setAdapter(adapter);
+            } else {
+                Toast.makeText(this, "No pets available.", Toast.LENGTH_SHORT).show();
+            }
         } else {
-            Toast.makeText(this, "No pets available.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Shelter details not available.", Toast.LENGTH_SHORT).show();
         }
+
     }
 }
 

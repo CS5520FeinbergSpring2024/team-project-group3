@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".PetOwnerViewActivity">
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/browseSheltersButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -14,38 +14,37 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"/>
+        app:layout_constraintVertical_chainStyle="packed"
+        app:layout_constraintVertical_bias="0.2"/>
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/viewPetsButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="View Pets"
-        app:layout_constraintTop_toBottomOf="@id/browseSheltersButton"
+        app:layout_constraintTop_toBottomOf="@+id/browseSheltersButton"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"/>
+        app:layout_constraintEnd_toEndOf="parent"/>
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/learnAboutAdoptionButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Learn About Adoption"
-        app:layout_constraintTop_toBottomOf="@id/viewPetsButton"
+        app:layout_constraintTop_toBottomOf="@+id/viewPetsButton"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"/>
+        app:layout_constraintEnd_toEndOf="parent"/>
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/chatWithSheltersButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Chat With Shelters"
-        app:layout_constraintTop_toBottomOf="@id/learnAboutAdoptionButton"
+        android:text="Chat with Shelters"
+        app:layout_constraintTop_toBottomOf="@+id/learnAboutAdoptionButton"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"/>
+        app:layout_constraintEnd_toEndOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 

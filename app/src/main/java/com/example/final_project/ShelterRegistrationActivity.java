@@ -6,9 +6,20 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.GeoPoint;
+import com.google.firebase.firestore.GeoPoint;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.Scanner;
+
+// Import necessary libraries for geocoding (Assuming Google's Geocoding API or similar)
 
 public class ShelterRegistrationActivity extends AppCompatActivity {
 
@@ -23,6 +34,13 @@ public class ShelterRegistrationActivity extends AppCompatActivity {
 
         firestore = FirebaseFirestore.getInstance();
 
+        // Initialize all EditTexts and Buttons
+        initializeFormFields();
+
+        registerShelterButton.setOnClickListener(view -> registerShelter());
+    }
+
+    private void initializeFormFields() {
         nameEditText = findViewById(R.id.shelterNameEditText);
         locationEditText = findViewById(R.id.shelterLocationEditText);
         descriptionEditText = findViewById(R.id.shelterDescriptionEditText);
@@ -31,26 +49,81 @@ public class ShelterRegistrationActivity extends AppCompatActivity {
         yearOfBusinessEditText = findViewById(R.id.shelterYearOfBusinessEditText);
         imageUrlEditText = findViewById(R.id.shelterImageUrlEditText);
         registerShelterButton = findViewById(R.id.registerShelterButton);
-
-        registerShelterButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                registerShelter();
-            }
-        });
     }
 
     private void registerShelter() {
+        // Extract information from EditTexts
         String name = nameEditText.getText().toString();
-        String location = locationEditText.getText().toString();
+        String location = locationEditText.getText().toString(); // Simplified location description
         String description = descriptionEditText.getText().toString();
         String phoneNumber = phoneNumberEditText.getText().toString();
         String address = addressEditText.getText().toString();
         String yearOfBusiness = yearOfBusinessEditText.getText().toString();
         String imageUrl = imageUrlEditText.getText().toString();
 
-        Shelter newShelter = new Shelter(name, location, imageUrl, null, description, phoneNumber, address, yearOfBusiness, null);
 
+        GeoPoint geoLocation = geocodeAddress(address);
+
+        if (geoLocation != null) {
+            // Create a new Shelter object with GeoPoint
+            // Now, create a Shelter object with the geolocation
+            Shelter newShelter = new Shelter(name, location, imageUrl, description, phoneNumber,
+                    address, yearOfBusiness, geoLocation);
+
+            // Save the new shelter to Firestore
+            saveShelterToFirestore(newShelter);
+        } else {
+            // Handle geocoding failure
+            Toast.makeText(this, "Failed to geocode address.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public GeoPoint geocodeAddress(String address) {
+        GeoPoint geoPoint = null;
+        try {
+            // Replace spaces with the URL escape character for spaces
+            String addressEncoded = address.replace(" ", "%20");
+            String apiKey = "YOUR_API_KEY_HERE";
+            URL url = new URL("https://maps.googleapis.com/maps/api/geocode/json?address=" + addressEncoded + "&key=" + apiKey);
+
+            // Open a connection
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.connect();
+
+            // Check if the request was successful
+            int responseCode = conn.getResponseCode();
+            if (responseCode != 200) {
+                throw new RuntimeException("HttpResponseCode: " + responseCode);
+            } else {
+                StringBuilder inline = new StringBuilder();
+                Scanner scanner = new Scanner(url.openStream());
+
+                // Write all the JSON data into a string using a scanner
+                while (scanner.hasNext()) {
+                    inline.append(scanner.nextLine());
+                }
+
+                // Close the scanner
+                scanner.close();
+
+                // Using the JSON simple library parse the string into a json object
+                JSONObject dataObj = new JSONObject(inline.toString());
+                JSONArray results = dataObj.getJSONArray("results");
+                if (results.length() > 0) {
+                    JSONObject location = results.getJSONObject(0).getJSONObject("geometry").getJSONObject("location");
+                    double lat = location.getDouble("lat");
+                    double lng = location.getDouble("lng");
+                    geoPoint = new GeoPoint(lat, lng);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return geoPoint;
+    }
+
+    private void saveShelterToFirestore(@NonNull Shelter newShelter) {
         firestore.collection("shelters").add(newShelter)
                 .addOnSuccessListener(documentReference -> Toast.makeText(ShelterRegistrationActivity.this, "Shelter registered successfully", Toast.LENGTH_SHORT).show())
                 .addOnFailureListener(e -> Toast.makeText(ShelterRegistrationActivity.this, "Failed to register shelter", Toast.LENGTH_SHORT).show());

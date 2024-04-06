@@ -11,34 +11,44 @@ public class PetOwnerViewActivity extends AppCompatActivity {
     private Button browseSheltersButton;
     private Button viewPetsButton;
     private Button learnAboutAdoptionButton;
-    private Button chatWithSheltersButton; // New button for chats
+    private Button chatWithSheltersButton; // Button for navigating to chat list
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pet_owner_view);
 
-        browseSheltersButton = findViewById(R.id.browseSheltersButton);
-        viewPetsButton = findViewById(R.id.viewPetsButton);
-        learnAboutAdoptionButton = findViewById(R.id.learnAboutAdoptionButton);
-        chatWithSheltersButton = findViewById(R.id.chatWithSheltersButton); // Initialize the chat button
-
+        initializeButtons();
         setButtonListeners();
     }
 
-    private void setButtonListeners() {
-        browseSheltersButton.setOnClickListener(v ->
-                startActivity(new Intent(PetOwnerViewActivity.this, ShelterListActivity.class)));
+    private void initializeButtons() {
+        browseSheltersButton = findViewById(R.id.browseSheltersButton);
+        viewPetsButton = findViewById(R.id.viewPetsButton);
+        learnAboutAdoptionButton = findViewById(R.id.learnAboutAdoptionButton);
+        chatWithSheltersButton = findViewById(R.id.chatWithSheltersButton);
+    }
 
-        viewPetsButton.setOnClickListener(v -> {
-            // Implementation remains the same as before, ensuring pet listing functionality
+    private void setButtonListeners() {
+        browseSheltersButton.setOnClickListener(v -> {
+
+            // This navigates to ShelterListActivity which now incorporates geolocation to display nearby shelters
+            startActivity(new Intent(PetOwnerViewActivity.this, ShelterListActivity.class));
         });
 
-        learnAboutAdoptionButton.setOnClickListener(v ->
-                startActivity(new Intent(PetOwnerViewActivity.this, AdoptionLessonActivity.class)));
+        viewPetsButton.setOnClickListener(v -> {
+            // This functionality can remain as it was, unless it needs to be updated for other reasons
+        });
 
-        chatWithSheltersButton.setOnClickListener(v ->
-                startActivity(new Intent(PetOwnerViewActivity.this, ChatListActivity.class))); // Navigate to ChatListActivity
+        learnAboutAdoptionButton.setOnClickListener(v -> {
+            // This button navigates to a static informational activity about pet adoption
+            startActivity(new Intent(PetOwnerViewActivity.this, AdoptionLessonActivity.class));
+        });
+
+        chatWithSheltersButton.setOnClickListener(v -> {
+            // Navigate to ChatListActivity where the user can see a list of their chats with shelters
+            startActivity(new Intent(PetOwnerViewActivity.this, ChatListActivity.class));
+        });
     }
 }
 
