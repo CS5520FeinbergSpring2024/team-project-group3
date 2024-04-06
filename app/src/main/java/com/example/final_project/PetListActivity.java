@@ -27,7 +27,7 @@ public class PetListActivity extends AppCompatActivity {
         if (selectedShelter != null) {
             List<Pet> pets = selectedShelter.getAdoptablePets();
             if (pets != null && !pets.isEmpty()) {
-                adapter = new PetsAdapter(pets, pet -> {
+                adapter = new PetsAdapter(this, pets, pet -> {
                     Intent intent = new Intent(PetListActivity.this, PetDetailActivity.class);
                     intent.putExtra("petData", pet);
                     startActivity(intent);
