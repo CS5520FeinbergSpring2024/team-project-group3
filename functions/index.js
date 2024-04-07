@@ -37,7 +37,7 @@ exports.sendAdoptionUpdateNotification = functions.firestore
                     title: 'Adoption Application Update',
                     body: `Your adoption application's status has been updated to: ${newValue.status}.`
                 },
-                token: newValue.userFCMToken // Assuming each application document includes the FCM token of the user
+                token: newValue.userFCMToken
             };
 
             // Send the notification
