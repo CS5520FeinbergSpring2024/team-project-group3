@@ -147,6 +147,11 @@ Changes:
 - Created new layout for Login activity, now usable in landscape mode
 - Created new layout for Register activity, now usable in landscape mode
 
+April 6
+
+Changes:
+- New edits/malformed XML caused immediate crashes in Login page landscape layout; rebuilt cleaner, bug-free layout
+
 
 ### Dakota's work Log
 (March 29th - March 30th) summary:
