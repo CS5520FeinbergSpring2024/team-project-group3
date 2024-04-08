@@ -1,6 +1,7 @@
 package com.example.final_project;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -47,7 +48,9 @@ public class ShelterListActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.shelterRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new ShelterAdapter(new ArrayList<>(), this, shelter -> {
-            // Implementation to navigate to ShelterDetailActivity or initiate chat
+            Intent intent = new Intent(this, ShelterDetailActivity.class);
+            intent.putExtra("shelterData", shelter);
+            startActivity(intent);
         });
         recyclerView.setAdapter(adapter);
 
