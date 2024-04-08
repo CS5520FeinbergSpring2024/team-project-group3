@@ -218,6 +218,10 @@ Significant update:
 * Created all chat-related files
 * Changed Firebase database schema to allow for chat feature
 
+(April 6th, 7th and 8th Updates):
+
+* Added messaging and notifications capabilities
+
 ## Installation
 
 Implement Glide to build.gradle.kts for adding web images (from api or webpage).
