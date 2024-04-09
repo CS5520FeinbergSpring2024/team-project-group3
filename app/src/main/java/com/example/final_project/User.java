@@ -9,6 +9,8 @@ public class User {
     private String role;
     private Map<String, Boolean> completedLessons;
 
+    private HashMap chats;
+
     // Default constructor required for Firestore data fetching
     public User() {
         completedLessons = new HashMap<>();
@@ -21,6 +23,14 @@ public class User {
         this.email = email;
         this.role = role;
         this.completedLessons = new HashMap<>();
+    }
+
+    public User(String name, String email, String role, HashMap chats) {
+        this.name = name;
+        this.email = email;
+        this.role = role;
+        this.completedLessons = new HashMap<>(); // No change needed
+        this.chats = chats;
     }
 
     // Getters and setters
