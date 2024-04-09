@@ -42,6 +42,8 @@ dependencies {
     implementation(libs.firebase.messaging)
     implementation(libs.recyclerview)
     implementation(libs.firebase.analytics)
+    implementation(libs.firebase.functions)
+    implementation(libs.firebase.auth)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
@@ -50,6 +52,10 @@ dependencies {
     implementation("com.google.android.material:material:1.11.0")
     implementation("com.firebase:geofire-android-common:3.1.0")
     implementation("com.google.android.gms:play-services-location:21.2.0")
+    implementation("com.google.firebase:firebase-messaging")
+    implementation("com.google.firebase:firebase-appcheck-playintegrity:17.1.2")
+
+
 
     // implemented glide.
     implementation ("com.github.bumptech.glide:glide:4.12.0")

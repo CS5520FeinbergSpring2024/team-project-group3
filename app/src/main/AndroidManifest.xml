@@ -16,6 +16,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApp"
         tools:targetApi="31">
+
+        <service android:name=".MyFirebaseMessagingService"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+
         <activity
             android:name=".ChatActivity"
             android:exported="false" />
@@ -70,16 +78,11 @@
         <activity
             android:name=".AdoptionLessonActivity"
             android:exported="false" />
-        <activity
-            android:name=".LoginActivity"
-            android:exported="true" />
+
         <activity android:name=".ShelterListActivity" />
-        <activity android:name=".BreedViewActivity" />
-        <activity android:name=".ShelterActivity" />
-        <activity android:name=".PetAdoptableActivity" />
         <activity android:name=".PetActivity" />
         <activity
-            android:name=".MainActivity"
+            android:name=".LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -92,5 +95,6 @@
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
     </application>
+
 
 </manifest>

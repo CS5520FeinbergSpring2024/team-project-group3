@@ -218,6 +218,14 @@ Significant update:
 * Created all chat-related files
 * Changed Firebase database schema to allow for chat feature
 
+(April 6th, 7th and 8th Updates):
+
+* Added messaging and notifications capabilities
+
+(April 9th Updates):
+
+* Registered app with AppCheck on Firebase, to enable integration with Play Integrity
+
 ## Installation
 
 Implement Glide to build.gradle.kts for adding web images (from api or webpage).

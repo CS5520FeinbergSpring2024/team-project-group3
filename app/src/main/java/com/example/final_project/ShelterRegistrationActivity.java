@@ -83,7 +83,7 @@ public class ShelterRegistrationActivity extends AppCompatActivity {
         try {
             // Replace spaces with the URL escape character for spaces
             String addressEncoded = address.replace(" ", "%20");
-            String apiKey = "YOUR_API_KEY_HERE";
+            String apiKey = "AIzaSyBEmsEDTuy6qlfrKfB8NDJV4fhSXnejBcY";
             URL url = new URL("https://maps.googleapis.com/maps/api/geocode/json?address=" + addressEncoded + "&key=" + apiKey);
 
             // Open a connection
