@@ -222,6 +222,10 @@ Significant update:
 
 * Added messaging and notifications capabilities
 
+(April 9th Updates):
+
+* Registered app with AppCheck on Firebase, to enable integration with Play Integrity
+
 ## Installation
 
 Implement Glide to build.gradle.kts for adding web images (from api or webpage).
