@@ -66,7 +66,7 @@ public class RegisterActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     String userId = auth.getCurrentUser().getUid();
                     firestore.collection("Users").document(userId).set(
-                            new User(username, email, role) // Assuming you have a User class
+                            new User(username, email, role)
                     ).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
