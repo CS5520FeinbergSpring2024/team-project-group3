@@ -20,10 +20,12 @@ import com.google.firebase.appcheck.FirebaseAppCheck;
 import com.google.firebase.appcheck.playintegrity.PlayIntegrityAppCheckProviderFactory;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -62,52 +64,48 @@ public class RegisterActivity extends AppCompatActivity {
         String email = editTextEmail.getText().toString().trim();
         String password = editTextPassword.getText().toString().trim();
         String username = editTextUsername.getText().toString().trim();
-        String role = radioButtonShelterOwner.isChecked() ? "shelterOwner" : "petOwner";
-
-        // Basic input validation
-        if (email.isEmpty() || password.isEmpty() || username.isEmpty()) {
-            Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        // Advanced email validation
-        String emailRegex = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$";
-        if (!Pattern.compile(emailRegex).matcher(email).matches()) {
-            Toast.makeText(this, "Please enter a valid email address", Toast.LENGTH_SHORT).show();
-            return;
-        }
+        String role = radioButtonShelterOwner.isChecked() ? "shelter_owner" : "pet_owner";
 
         progressDialog.setMessage("Registering User...");
         progressDialog.show();
 
         auth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(task -> {
+                .addOnCompleteListener(this, task -> {
                     progressDialog.dismiss();
                     if (task.isSuccessful()) {
+                        // Registration succeeded, user is now the current user
                         FirebaseUser user = auth.getCurrentUser();
                         if (user != null) {
-                            String userId = user.getUid();
-                            firestore.collection("Users").document(userId)
-                                    .set(new User(username, email, role, new HashMap<>()))
+                            // Construct a new User object or a Map to represent the user
+                            Map<String, Object> userData = new HashMap<>();
+                            userData.put("username", username);
+                            userData.put("email", email);
+                            userData.put("role", role);
+
+
+                            // Add a new document with UID as the document ID in "Users" collection
+                            firestore.collection("Users").document(user.getUid()).set(userData)
                                     .addOnSuccessListener(aVoid -> {
                                         Toast.makeText(RegisterActivity.this, "Registration Successful", Toast.LENGTH_LONG).show();
 
-                                        // Intent Logic
-                                        Intent intent = role.equals("shelterOwner") ? new Intent(RegisterActivity.this, ShelterOwnerDashboardActivity.class) : new Intent(RegisterActivity.this, PetOwnerViewActivity.class);
+                                        // Direct user to the appropriate activity based on their role
+                                        Intent intent = role.equals("shelterOwner") ?
+                                                new Intent(RegisterActivity.this, ShelterOwnerDashboardActivity.class) :
+                                                new Intent(RegisterActivity.this, PetOwnerViewActivity.class);
                                         startActivity(intent);
-                                        finish(); // Close the registration activity
+                                        finish(); // Finish the registration activity
                                     })
                                     .addOnFailureListener(e -> {
-                                        Log.e("RegisterActivity", "Failed to save user data:", e);
-                                        Toast.makeText(RegisterActivity.this, "Registration failed. Please try again.", Toast.LENGTH_LONG).show();
+                                        Log.e("RegisterActivity", "Error adding user document", e);
+                                        Toast.makeText(RegisterActivity.this, "Failed to create user profile", Toast.LENGTH_LONG).show();
                                     });
                         } else {
-                            Log.e("RegisterActivity", "User object is null after authentication");
-                            Toast.makeText(RegisterActivity.this, "An error occurred. Please try again.", Toast.LENGTH_LONG).show();
+                            Toast.makeText(RegisterActivity.this, "User registration succeeded but user data is unavailable", Toast.LENGTH_LONG).show();
                         }
                     } else {
-                        Log.e("RegisterActivity", "Authentication failed:", task.getException());
-                        Toast.makeText(RegisterActivity.this, "Authentication failed. Please check your email and password.", Toast.LENGTH_LONG).show();
+                        // If sign in fails, display a message to the user.
+                        Log.e("RegisterActivity", "Registration failed", task.getException());
+                        Toast.makeText(RegisterActivity.this, "Registration failed. Please try again.", Toast.LENGTH_LONG).show();
                     }
                 });
     }
