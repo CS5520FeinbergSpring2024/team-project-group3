@@ -245,6 +245,10 @@ Significant update:
 
 * Registered app with AppCheck on Firebase, to enable integration with Play Integrity
 
+(April 10th Updates):
+
+* Greatly simplified the login and registration procedure, relying only on an email address now. 
+
 ## Installation
 
 Implement Glide to build.gradle.kts for adding web images (from api or webpage).
