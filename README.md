@@ -162,6 +162,15 @@ New Todos:
 - Beautify PetOwnerViewActivity
 - Fix pages linked to PetOwnerViewActivity; all appear blank with exception of View Pets, which has no effect. Ensure data exists for these pages, beautify, etc.
 
+April 10
+
+Changes:
+- Edits to PetOwnerViewActivity
+
+New Todos:
+- (See above)
+- ChatListActivity chat_list_item needs more info like shelter name for each chat
+
 
 ### Dakota's work Log
 (March 29th - March 30th) summary:
