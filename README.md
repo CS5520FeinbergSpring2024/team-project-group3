@@ -2,8 +2,7 @@
 ## Pet Education App
 
 # Please read carefully before making further modifications to the App.
-# Please read carefully before making further modifications to the App.
-# Please read carefully before making further modifications to the App.
+
 
 
 # App Scheme
