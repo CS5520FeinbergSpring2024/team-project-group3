@@ -152,6 +152,16 @@ April 6
 Changes:
 - New edits/malformed XML caused immediate crashes in Login page landscape layout; rebuilt cleaner, bug-free layout
 
+April 9
+
+Fixed:
+- Unable to register or login new users due to private Firestore permissions. Loosened permissions to allow for registration
+
+New Todos:
+- Filling out registration page with an already-used email should notify user of such rather than vague error
+- Beautify PetOwnerViewActivity
+- Fix pages linked to PetOwnerViewActivity; all appear blank with exception of View Pets, which has no effect. Ensure data exists for these pages, beautify, etc.
+
 
 ### Dakota's work Log
 (March 29th - March 30th) summary:
