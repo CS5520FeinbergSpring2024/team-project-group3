@@ -32,9 +32,8 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         FirebaseApp.initializeApp(this);
-        databaseReference = FirebaseDatabase.getInstance().getReference();
+        databaseReference = FirebaseDatabase.getInstance().getReference("Users");
 
-        // UI components initialization
         editTextEmail = findViewById(R.id.editTextEmail);
         editTextUsername = findViewById(R.id.editTextUsername);
         radioButtonShelterOwner = findViewById(R.id.radioButtonShelterOwner);
@@ -42,12 +41,7 @@ public class RegisterActivity extends AppCompatActivity {
         buttonRegister = findViewById(R.id.buttonRegister);
         progressDialog = new ProgressDialog(this);
 
-        buttonRegister.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                registerUser();
-            }
-        });
+        buttonRegister.setOnClickListener(view -> registerUser());
     }
 
     private void registerUser() {
@@ -67,7 +61,7 @@ public class RegisterActivity extends AppCompatActivity {
         userData.put("role", role);
 
         // Write data to the Realtime Database
-        databaseReference.child("Users").child(userId).setValue(userData)
+        databaseReference.child(userId).setValue(userData)
                 .addOnCompleteListener(task -> {
                     progressDialog.dismiss();
                     if (task.isSuccessful()) {
@@ -79,6 +73,7 @@ public class RegisterActivity extends AppCompatActivity {
                         } else {
                             intent = new Intent(RegisterActivity.this, PetOwnerViewActivity.class);
                         }
+                        intent.putExtra("USER_ID", userId); // Pass userId to the next activity
                         startActivity(intent);
                         finish();
                     } else {

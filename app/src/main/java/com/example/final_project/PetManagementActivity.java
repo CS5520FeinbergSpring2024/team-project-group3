@@ -53,7 +53,7 @@ public class PetManagementActivity extends AppCompatActivity {
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         petNames.clear();
                         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                            String petName = snapshot.child("name").getValue(String.class); // Assuming pet names are stored under the "name" key
+                            String petName = snapshot.child("name").getValue(String.class);
                             if (petName != null) {
                                 petNames.add(petName);
                             }

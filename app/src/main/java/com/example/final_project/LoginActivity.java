@@ -37,8 +37,10 @@ public class LoginActivity extends AppCompatActivity {
         Button buttonGoToRegister = findViewById(R.id.buttonGoToRegister);
 
         buttonLogin.setOnClickListener(view -> loginUser());
-
-        buttonGoToRegister.setOnClickListener(view -> startActivity(new Intent(LoginActivity.this, RegisterActivity.class)));
+        buttonGoToRegister.setOnClickListener(view -> {
+            Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+            startActivity(intent);
+        });
     }
 
     private void loginUser() {
@@ -50,7 +52,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
                     for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
-                        // Assuming role is stored under each user
+                        String userId = userSnapshot.getKey();
                         String role = userSnapshot.child("role").getValue(String.class);
                         Intent intent;
                         if ("shelter_owner".equals(role)) {
@@ -61,6 +63,7 @@ public class LoginActivity extends AppCompatActivity {
                             Toast.makeText(LoginActivity.this, "Undefined user role.", Toast.LENGTH_SHORT).show();
                             return;
                         }
+                        intent.putExtra("USER_ID", userId);
                         startActivity(intent);
                         finish();
                     }
@@ -77,4 +80,5 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 }
+
 
