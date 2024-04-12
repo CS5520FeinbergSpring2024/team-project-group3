@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,75 +7,12 @@
     android:padding="16dp"
     tools:context=".PetManagementActivity">
 
-    <LinearLayout
+    <!-- A ListView to display pet names -->
+    <ListView
+        android:id="@+id/listViewPets"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:divider="@android:color/darker_gray"
+        android:dividerHeight="1dp" />
 
-        <EditText
-            android:id="@+id/nameEditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Name"
-            android:inputType="textPersonName" />
-
-        <EditText
-            android:id="@+id/typeEditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Type"
-            android:inputType="text" />
-
-        <EditText
-            android:id="@+id/breedEditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Breed"
-            android:inputType="text" />
-
-        <EditText
-            android:id="@+id/ageEditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Age"
-            android:inputType="numberDecimal" />
-
-        <EditText
-            android:id="@+id/genderEditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Gender"
-            android:inputType="text" />
-
-        <EditText
-            android:id="@+id/descriptionEditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Description"
-            android:inputType="textMultiLine"
-            android:lines="3"
-            android:gravity="top" />
-
-        <EditText
-            android:id="@+id/priceEditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Price"
-            android:inputType="numberDecimal" />
-
-        <Button
-            android:id="@+id/updateButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Update"
-            android:layout_marginTop="16dp"/>
-
-        <Button
-            android:id="@+id/deleteButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Delete"
-            android:layout_marginTop="8dp"/>
-
-    </LinearLayout>
-</ScrollView>
+</RelativeLayout>
