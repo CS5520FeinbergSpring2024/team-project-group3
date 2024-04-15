@@ -11,12 +11,20 @@ public class PetOwnerViewActivity extends AppCompatActivity {
     private Button browseSheltersButton;
     private Button viewPetsButton;
     private Button learnAboutAdoptionButton;
-    private Button chatWithSheltersButton; // Button for navigating to chat list
+    private Button chatWithSheltersButton;
+    private String currentUserId; // Variable to hold the user ID
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pet_owner_view);
+
+        // Retrieve the user ID from the intent
+        currentUserId = getIntent().getStringExtra("USER_ID");
+        if (currentUserId == null) {
+            finish(); // Redirect to login screen or show an error because user ID is crucial
+            return;
+        }
 
         initializeButtons();
         setButtonListeners();
@@ -24,30 +32,29 @@ public class PetOwnerViewActivity extends AppCompatActivity {
 
     private void initializeButtons() {
         browseSheltersButton = findViewById(R.id.browseSheltersButton);
-        viewPetsButton = findViewById(R.id.viewPetsButton);
         learnAboutAdoptionButton = findViewById(R.id.learnAboutAdoptionButton);
         chatWithSheltersButton = findViewById(R.id.chatWithSheltersButton);
     }
 
     private void setButtonListeners() {
         browseSheltersButton.setOnClickListener(v -> {
-
-            // This navigates to ShelterListActivity which now incorporates geolocation to display nearby shelters
-            startActivity(new Intent(PetOwnerViewActivity.this, ShelterListActivity.class));
+            // Pass the user ID to the ShelterListActivity
+            Intent intent = new Intent(PetOwnerViewActivity.this, ShelterListActivity.class);
+            intent.putExtra("USER_ID", currentUserId);
+            startActivity(intent);
         });
 
-        viewPetsButton.setOnClickListener(v -> {
-            // This functionality can remain as it was, unless it needs to be updated for other reasons
-        });
 
         learnAboutAdoptionButton.setOnClickListener(v -> {
-            // This button navigates to a static informational activity about pet adoption
+            // Pass the user ID if necessary or just open the static informational activity
             startActivity(new Intent(PetOwnerViewActivity.this, AdoptionLessonActivity.class));
         });
 
         chatWithSheltersButton.setOnClickListener(v -> {
-            // Navigate to ChatListActivity where the user can see a list of their chats with shelters
-            startActivity(new Intent(PetOwnerViewActivity.this, ChatListActivity.class));
+            // Navigate to ChatListActivity, passing the user ID
+            Intent intent = new Intent(PetOwnerViewActivity.this, ChatListActivity.class);
+            intent.putExtra("USER_ID", currentUserId);
+            startActivity(intent);
         });
     }
 }

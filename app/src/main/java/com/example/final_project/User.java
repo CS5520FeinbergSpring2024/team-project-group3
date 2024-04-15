@@ -8,7 +8,6 @@ public class User {
     private String email;
     private String role;
     private Map<String, Boolean> completedLessons;
-
     private HashMap chats;
 
     // Default constructor required for Firestore data fetching

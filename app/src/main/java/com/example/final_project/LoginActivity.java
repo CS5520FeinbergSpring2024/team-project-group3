@@ -11,21 +11,18 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
-import com.google.firebase.appcheck.FirebaseAppCheck;
-import com.google.firebase.appcheck.playintegrity.PlayIntegrityAppCheckProviderFactory;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 public class LoginActivity extends AppCompatActivity {
-    private EditText editTextEmail, editTextPassword;
+    private EditText editTextEmail;
     private Button buttonLogin;
-    private FirebaseAuth auth;
-    private FirebaseFirestore firestore;
+    private DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,75 +30,55 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         FirebaseApp.initializeApp(this);
-        FirebaseAppCheck firebaseAppCheck = FirebaseAppCheck.getInstance();
-        firebaseAppCheck.installAppCheckProviderFactory(PlayIntegrityAppCheckProviderFactory.getInstance());
+        databaseReference = FirebaseDatabase.getInstance().getReference("Users");
 
         editTextEmail = findViewById(R.id.editTextEmail);
-        editTextPassword = findViewById(R.id.editTextPassword);
         buttonLogin = findViewById(R.id.buttonLogin);
         Button buttonGoToRegister = findViewById(R.id.buttonGoToRegister);
 
-        auth = FirebaseAuth.getInstance();
-        firestore = FirebaseFirestore.getInstance();
-
-        buttonLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                loginUser();
-            }
-        });
-
-        buttonGoToRegister.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
-            }
+        buttonLogin.setOnClickListener(view -> loginUser());
+        buttonGoToRegister.setOnClickListener(view -> {
+            Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+            startActivity(intent);
         });
     }
 
     private void loginUser() {
         String email = editTextEmail.getText().toString().trim();
-        String password = editTextPassword.getText().toString().trim();
 
-        auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+        Query query = databaseReference.orderByChild("email").equalTo(email);
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()) {
-                    checkUserRole();
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
+                        String userId = userSnapshot.getKey();
+                        String role = userSnapshot.child("role").getValue(String.class);
+                        Intent intent;
+                        if ("shelter_owner".equals(role)) {
+                            intent = new Intent(LoginActivity.this, ShelterOwnerDashboardActivity.class);
+                        } else if ("pet_owner".equals(role)) {
+                            intent = new Intent(LoginActivity.this, PetOwnerViewActivity.class);
+                        } else {
+                            Toast.makeText(LoginActivity.this, "Undefined user role.", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        intent.putExtra("USER_ID", userId);
+                        startActivity(intent);
+                        finish();
+                    }
                 } else {
-                    Toast.makeText(LoginActivity.this, "Login failed: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(LoginActivity.this, "User does not exist.", Toast.LENGTH_SHORT).show();
                 }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.d("LoginActivity", "Database error: " + databaseError.getMessage());
+                Toast.makeText(LoginActivity.this, "Database error", Toast.LENGTH_SHORT).show();
             }
         });
     }
-
-    private void checkUserRole() {
-        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        FirebaseFirestore.getInstance().collection("Users").document(userId)
-                .get().addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        DocumentSnapshot documentSnapshot = task.getResult();
-                        if (documentSnapshot != null && documentSnapshot.exists()) {
-                            String role = documentSnapshot.getString("role");
-                            Intent intent;
-                            if ("shelter_owner".equals(role)) {
-                                intent = new Intent(LoginActivity.this, ShelterOwnerDashboardActivity.class);
-                            } else if ("pet_owner".equals(role)) {
-                                intent = new Intent(LoginActivity.this, PetOwnerViewActivity.class);
-                            } else {
-                                Toast.makeText(LoginActivity.this, "Undefined user role.", Toast.LENGTH_SHORT).show();
-                                return;
-                            }
-                            startActivity(intent);
-                            finish();
-                        } else {
-                            Toast.makeText(LoginActivity.this, "User document does not exist.", Toast.LENGTH_SHORT).show();
-                        }
-                    } else {
-                        Log.d("LoginActivity", "Error getting documents: ", task.getException());
-                        Toast.makeText(LoginActivity.this, "Failed to fetch user role.", Toast.LENGTH_SHORT).show();
-                    }
-                });
-    }
-
 }
+
+

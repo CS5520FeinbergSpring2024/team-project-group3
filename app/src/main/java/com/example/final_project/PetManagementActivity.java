@@ -2,108 +2,71 @@ package com.example.final_project;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class PetManagementActivity extends AppCompatActivity {
-    private EditText nameEditText, typeEditText, breedEditText, ageEditText, genderEditText, descriptionEditText, priceEditText;
-    private Button updateButton, deleteButton;
-    private FirebaseFirestore firestore;
-    private String petId; // Note: this should ideally come from the intent or selection
+    private ListView listViewPets;
+    private DatabaseReference databaseReference;
+    private List<String> petNames;
+    private String shelterId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pet_management);
 
-        // Initialize Firebase Firestore
-        firestore = FirebaseFirestore.getInstance();
+        listViewPets = findViewById(R.id.listViewPets);
+        petNames = new ArrayList<>();
+        databaseReference = FirebaseDatabase.getInstance().getReference();
 
-        // Initialize UI components
-        nameEditText = findViewById(R.id.nameEditText);
-        typeEditText = findViewById(R.id.typeEditText);
-        breedEditText = findViewById(R.id.breedEditText);
-        ageEditText = findViewById(R.id.ageEditText);
-        genderEditText = findViewById(R.id.genderEditText);
-        descriptionEditText = findViewById(R.id.descriptionEditText);
-        priceEditText = findViewById(R.id.priceEditText);
-        updateButton = findViewById(R.id.updateButton);
-        deleteButton = findViewById(R.id.deleteButton);
-
-        // Retrieve petId from Intent
+        // Retrieve shelterId from Intent
         Intent intent = getIntent();
-        if (intent != null) {
-            petId = intent.getStringExtra("PET_ID");
-            loadPetDetails(petId); // Method to load pet details
+        shelterId = intent.getStringExtra("SHELTER_ID");
+        if (shelterId != null && !shelterId.isEmpty()) {
+            loadPets(shelterId);
+        } else {
+            Toast.makeText(this, "Invalid Shelter ID", Toast.LENGTH_LONG).show();
         }
-
-        updateButton.setOnClickListener(v -> updatePetDetails());
-        deleteButton.setOnClickListener(v -> deletePet());
     }
 
-    private void loadPetDetails(String petId) {
-        // Fetch the pet document from Firestore
-        firestore.collection("Pets").document(petId)
-                .get()
-                .addOnSuccessListener(documentSnapshot -> {
-                    if (documentSnapshot.exists()) {
-                        // Retrieve pet details
-                        Pet pet = documentSnapshot.toObject(Pet.class);
-                        if (pet != null) {
-                            // Populate the EditText fields with pet details
-                            nameEditText.setText(pet.getName());
-                            typeEditText.setText(pet.getType());
-                            breedEditText.setText(pet.getBreed());
-                            ageEditText.setText(pet.getAge());
-                            genderEditText.setText(pet.getGender());
-                            descriptionEditText.setText(pet.getDescription());
-                            priceEditText.setText(pet.getPrice());
-                        } else {
-                            Toast.makeText(PetManagementActivity.this, "Pet data is null", Toast.LENGTH_SHORT).show();
+    private void loadPets(String shelterId) {
+        databaseReference.child("Pets")
+                .orderByChild("shelterId").equalTo(shelterId)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        petNames.clear();
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            String petName = snapshot.child("name").getValue(String.class);
+                            if (petName != null) {
+                                petNames.add(petName);
+                            }
                         }
-                    } else {
-                        Toast.makeText(PetManagementActivity.this, "Pet does not exist", Toast.LENGTH_SHORT).show();
+                        ArrayAdapter<String> adapter = new ArrayAdapter<>(PetManagementActivity.this,
+                                android.R.layout.simple_list_item_1, petNames);
+                        listViewPets.setAdapter(adapter);
                     }
-                })
-                .addOnFailureListener(e -> Toast.makeText(PetManagementActivity.this, "Failed to load pet details: " + e.getMessage(), Toast.LENGTH_SHORT).show());
-    }
 
-
-    private void updatePetDetails() {
-        // Fetch updated values from EditTexts
-        String name = nameEditText.getText().toString();
-        String type = typeEditText.getText().toString();
-        String breed = breedEditText.getText().toString();
-        String age = ageEditText.getText().toString();
-        String gender = genderEditText.getText().toString();
-        String description = descriptionEditText.getText().toString();
-        String price = priceEditText.getText().toString();
-
-        // Update Firestore document for the pet
-        DocumentReference petRef = firestore.collection("Pets").document(petId);
-        petRef.update("name", name, "type", type, "breed", breed, "age", age, "gender", gender, "description", description, "price", price)
-                .addOnSuccessListener(aVoid -> Toast.makeText(PetManagementActivity.this, "Pet details updated successfully", Toast.LENGTH_SHORT).show())
-                .addOnFailureListener(e -> Toast.makeText(PetManagementActivity.this, "Update failed: " + e.getMessage(), Toast.LENGTH_SHORT).show());
-    }
-
-    private void deletePet() {
-        // Delete pet from Firestore
-        DocumentReference petRef = firestore.collection("Pets").document(petId);
-        petRef.delete()
-                .addOnSuccessListener(aVoid -> {
-                    Toast.makeText(PetManagementActivity.this, "Pet deleted successfully", Toast.LENGTH_SHORT).show();
-                    finish(); // Note: optionally return to previous Activity
-                })
-                .addOnFailureListener(e -> Toast.makeText(PetManagementActivity.this, "Deletion failed: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        Toast.makeText(PetManagementActivity.this, "Failed to load pets: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 }

@@ -2,8 +2,7 @@
 ## Pet Education App
 
 # Please read carefully before making further modifications to the App.
-# Please read carefully before making further modifications to the App.
-# Please read carefully before making further modifications to the App.
+
 
 
 # App Scheme
@@ -244,6 +243,10 @@ Significant update:
 (April 9th Updates):
 
 * Registered app with AppCheck on Firebase, to enable integration with Play Integrity
+
+(April 10th Updates):
+
+* Greatly simplified the login and registration procedure, relying only on an email address now. 
 
 ## Installation
 
