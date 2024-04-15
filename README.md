@@ -170,6 +170,11 @@ New Todos:
 - (See above)
 - ChatListActivity chat_list_item needs more info like shelter name for each chat
 
+April 14-15
+
+Changes:
+- Rebuilt and cleared Login page crashes
+
 
 ### Dakota's work Log
 (March 29th - March 30th) summary:
