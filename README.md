@@ -146,6 +146,35 @@ Changes:
 - Created new layout for Login activity, now usable in landscape mode
 - Created new layout for Register activity, now usable in landscape mode
 
+April 6
+
+Changes:
+- New edits/malformed XML caused immediate crashes in Login page landscape layout; rebuilt cleaner, bug-free layout
+
+April 9
+
+Fixed:
+- Unable to register or login new users due to private Firestore permissions. Loosened permissions to allow for registration
+
+New Todos:
+- Filling out registration page with an already-used email should notify user of such rather than vague error
+- Beautify PetOwnerViewActivity
+- Fix pages linked to PetOwnerViewActivity; all appear blank with exception of View Pets, which has no effect. Ensure data exists for these pages, beautify, etc.
+
+April 10
+
+Changes:
+- Edits to PetOwnerViewActivity
+
+New Todos:
+- (See above)
+- ChatListActivity chat_list_item needs more info like shelter name for each chat
+
+April 14-15
+
+Changes:
+- Rebuilt and cleared Login page crashes
+
 
 ### Dakota's work Log
 (March 29th - March 30th) summary:
