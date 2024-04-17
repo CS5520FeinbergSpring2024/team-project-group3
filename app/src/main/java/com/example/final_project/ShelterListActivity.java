@@ -22,7 +22,6 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -49,7 +48,7 @@ public class ShelterListActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new ShelterAdapter(new ArrayList<>(), this, shelter -> {
             Intent intent = new Intent(this, ShelterDetailActivity.class);
-            intent.putExtra("shelterData", shelter);
+            intent.putExtra("shelterId", shelter.getId());
             startActivity(intent);
         });
         recyclerView.setAdapter(adapter);
@@ -130,7 +129,5 @@ public class ShelterListActivity extends AppCompatActivity {
             adapter.notifyDataSetChanged();
         }).addOnFailureListener(e -> Log.w("ShelterListActivity", "Error getting documents: ", e));
     }
-
-
 }
 
