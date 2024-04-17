@@ -15,6 +15,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.HashMap;
+
 public class LessonDetailActivity extends AppCompatActivity {
     private FirebaseFirestore firestore;
     private FirebaseAuth auth;
@@ -56,12 +58,24 @@ public class LessonDetailActivity extends AppCompatActivity {
     }
 
     private void markLessonCompleted(String lessonId) {
-        String userId = auth.getCurrentUser().getUid();
-        firestore.collection("UserLessonProgress").document(userId)
-                .collection("CompletedLessons").document(lessonId)
-                .set(new UserLessonProgress(lessonId, true))
-                .addOnSuccessListener(aVoid -> Toast.makeText(LessonDetailActivity.this, "Lesson marked as completed!", Toast.LENGTH_SHORT).show())
-                .addOnFailureListener(e -> Toast.makeText(LessonDetailActivity.this, "Failed to mark lesson as completed.", Toast.LENGTH_SHORT).show());
+        // Assuming userId is passed via Intent or obtained from a session manager
+        String userId = getIntent().getStringExtra("userId");
+        if (userId != null && !userId.isEmpty()) {
+            // Set or update the lesson completion status
+            firestore.collection("Users").document(userId)
+                    .collection("CompletedLessons").document(lessonId)
+                    .set(new HashMap<String, Object>() {{ put("completed", true); }})
+                    .addOnSuccessListener(aVoid -> {
+                        Toast.makeText(LessonDetailActivity.this, "Lesson marked as completed!", Toast.LENGTH_SHORT).show();
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(LessonDetailActivity.this, "Failed to mark lesson as completed. " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    });
+        } else {
+            Toast.makeText(this, "User ID is not available. Cannot mark lesson as completed.", Toast.LENGTH_SHORT).show();
+        }
     }
+
+
 }
 

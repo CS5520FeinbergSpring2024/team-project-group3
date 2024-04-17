@@ -14,6 +14,11 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 /**
  * Manages adoption education lessons for pet owners.
@@ -50,28 +55,37 @@ public class AdoptionLessonActivity extends AppCompatActivity {
      * Fetches lesson content from Firestore and updates the UI.
      */
     private void fetchLessons() {
-        firestore.collection("AdoptionLessons")
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        if (!queryDocumentSnapshots.isEmpty()) {
-                            List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
-                            for (DocumentSnapshot d : list) {
-                                Lesson lesson = d.toObject(Lesson.class);
-                                lessonsList.add(lesson);
-                            }
-                            adapter.notifyDataSetChanged();
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("AdoptionLessons");
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                lessonsList.clear(); // Clear existing data
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    
+                    DataSnapshot lessonSnapshot = snapshot.child("Lesson");
+                    if (lessonSnapshot.exists()) {
+                        Lesson lesson = lessonSnapshot.getValue(Lesson.class);
+                        if (lesson != null) {
+                            lesson.setLessonId(snapshot.getKey()); // Set the ID from the snapshot key
+                            lessonsList.add(lesson);
                         }
                     }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(AdoptionLessonActivity.this, "Failed to fetch lessons.", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                }
+                adapter.notifyDataSetChanged(); // Notify the adapter of data changes
+                if (lessonsList.isEmpty()) {
+                    Toast.makeText(AdoptionLessonActivity.this, "No lessons available.", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Toast.makeText(AdoptionLessonActivity.this, "Failed to fetch lessons: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
+
+
+
 
     /**
      * Updates the user's progress for a given lesson.

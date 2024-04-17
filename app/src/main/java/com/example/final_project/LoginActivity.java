@@ -1,6 +1,8 @@
 package com.example.final_project;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -41,7 +43,18 @@ public class LoginActivity extends AppCompatActivity {
             Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
             startActivity(intent);
         });
+
+
     }
+
+    // Example method to save user ID in SharedPreferences
+    public void saveUserId(Context context, String userId) {
+        SharedPreferences prefs = context.getSharedPreferences("AppPrefs", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString("UserID", userId);
+        editor.apply();
+    }
+
 
     private void loginUser() {
         String email = editTextEmail.getText().toString().trim();
@@ -55,6 +68,7 @@ public class LoginActivity extends AppCompatActivity {
                         String userId = userSnapshot.getKey();
                         String role = userSnapshot.child("role").getValue(String.class);
                         Intent intent;
+                        saveUserId(LoginActivity.this, userId);
                         if ("shelter_owner".equals(role)) {
                             intent = new Intent(LoginActivity.this, ShelterOwnerDashboardActivity.class);
                         } else if ("pet_owner".equals(role)) {

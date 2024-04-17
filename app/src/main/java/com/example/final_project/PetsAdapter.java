@@ -14,7 +14,7 @@ import java.util.List;
 public class PetsAdapter extends RecyclerView.Adapter<PetsAdapter.ViewHolder> {
 
     private final Context context;
-    private final List<Pet> petList;
+    public List<Pet> petList;
     private final OnPetClickListener clickListener;
 
     public PetsAdapter(Context context, List<Pet> petList, OnPetClickListener clickListener) {
@@ -29,6 +29,12 @@ public class PetsAdapter extends RecyclerView.Adapter<PetsAdapter.ViewHolder> {
         View view = LayoutInflater.from(context).inflate(R.layout.item_pet_type, parent, false);
         return new ViewHolder(view);
     }
+
+    public void updatePets(List<Pet> pets) {
+        this.petList = pets;
+        notifyDataSetChanged();
+    }
+
 
 
     @Override
@@ -62,6 +68,8 @@ public class PetsAdapter extends RecyclerView.Adapter<PetsAdapter.ViewHolder> {
     public interface OnPetClickListener {
         void onPetClick(Pet pet);
     }
+
+
 
 
 
