@@ -180,6 +180,17 @@ April 16
 Changes:
 - Built usable landscape layout for registration page
 
+April 17-18
+
+Changes
+- Created test pet user Test (test@gmail.com) and shelter user TestS(testS@gmail.com)
+- Fixed ShelterRegistrationActivity; error caused by geocoding on main thread had been preventing registration
+
+New Todos:
+- Some button(s) on PetOwnerViewActivity take user back to login
+- ShelterRegistrationActivity should return user to ManageSheltersActivity upon successful registration
+- Error when clicking on shelter in ManageSheltersActivity: geopoint cannot be cast to parcelable
+
 
 ### Dakota's work Log
 (March 29th - March 30th) summary:

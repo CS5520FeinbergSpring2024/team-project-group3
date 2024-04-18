@@ -61,21 +61,18 @@ public class ShelterRegistrationActivity extends AppCompatActivity {
         String yearOfBusiness = yearOfBusinessEditText.getText().toString();
         String imageUrl = imageUrlEditText.getText().toString();
 
-
-        GeoPoint geoLocation = geocodeAddress(address);
-
-        if (geoLocation != null) {
-            // Create a new Shelter object with GeoPoint
-            // Now, create a Shelter object with the geolocation
-            Shelter newShelter = new Shelter(name, location, imageUrl, description, phoneNumber,
-                    address, yearOfBusiness, geoLocation);
-
-            // Save the new shelter to Firestore
-            saveShelterToFirestore(newShelter);
-        } else {
-            // Handle geocoding failure
-            Toast.makeText(this, "Failed to geocode address.", Toast.LENGTH_SHORT).show();
-        }
+        new Thread(() -> {
+            GeoPoint geoLocation = geocodeAddress(address);
+            runOnUiThread(() -> {
+                if (geoLocation != null) {
+                    // Create new Shelter with geoLocation
+                    Shelter newShelter = new Shelter(name, location, imageUrl, description, phoneNumber, address, yearOfBusiness, geoLocation);
+                    saveShelterToFirestore(newShelter);
+                } else {
+                    Toast.makeText(this, "Failed to geocode address.", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }).start();
     }
 
     public GeoPoint geocodeAddress(String address) {
