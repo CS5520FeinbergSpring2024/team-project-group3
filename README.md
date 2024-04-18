@@ -175,6 +175,11 @@ April 14-15
 Changes:
 - Rebuilt and cleared Login page crashes
 
+April 16
+
+Changes:
+- Built usable landscape layout for registration page
+
 
 ### Dakota's work Log
 (March 29th - March 30th) summary:
