@@ -20,7 +20,6 @@ import android.Manifest;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -38,7 +37,7 @@ public class PetRegistrationActivity extends AppCompatActivity {
 
     private FirebaseFirestore firestore;
     private FirebaseStorage storage;
-    private FirebaseAuth auth;
+
     private StorageReference storageReference;
 
     private static final int READ_MEDIA_IMAGES_REQUEST_CODE = 101;
@@ -50,7 +49,6 @@ public class PetRegistrationActivity extends AppCompatActivity {
 
         firestore = FirebaseFirestore.getInstance();
         storage = FirebaseStorage.getInstance();
-        auth = FirebaseAuth.getInstance();
         storageReference = storage.getReference();
 
         petNameEditText = findViewById(R.id.petNameEditText);

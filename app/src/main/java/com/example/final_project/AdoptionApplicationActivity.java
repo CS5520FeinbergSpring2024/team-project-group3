@@ -1,5 +1,6 @@
 package com.example.final_project;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -8,7 +9,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.firebase.auth.FirebaseAuth;
+
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
@@ -20,7 +21,7 @@ public class AdoptionApplicationActivity extends AppCompatActivity {
     private EditText applicantAddressEditText;
     private Button submitApplicationButton;
     private FirebaseFirestore firestore;
-    private FirebaseAuth auth;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +30,7 @@ public class AdoptionApplicationActivity extends AppCompatActivity {
 
         // Initialize Firestore and FirebaseAuth
         firestore = FirebaseFirestore.getInstance();
-        auth = FirebaseAuth.getInstance();
+
 
         applicantNameEditText = findViewById(R.id.applicantNameEditText);
         applicantAddressEditText = findViewById(R.id.applicantAddressEditText);
@@ -47,7 +48,8 @@ public class AdoptionApplicationActivity extends AppCompatActivity {
     }
 
     private void submitApplication(String petId) {
-        String userId = auth.getCurrentUser().getUid();
+        Intent intent = getIntent();
+        String userId = intent.getStringExtra("SHELTER_ID");
         String name = applicantNameEditText.getText().toString();
         String address = applicantAddressEditText.getText().toString();
 

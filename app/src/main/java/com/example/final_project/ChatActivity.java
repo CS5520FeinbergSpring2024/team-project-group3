@@ -2,32 +2,24 @@ package com.example.final_project;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
-import androidx.annotation.NonNull;
+import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-
 import com.google.firebase.firestore.FirebaseFirestore;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class ChatActivity extends AppCompatActivity {
-    private ListView messagesListView;
     private EditText messageEditText;
     private Button sendMessageButton;
     private MessagesAdapter messagesAdapter;
     private FirebaseFirestore firestore;
-
     private String chatId;
     private String shelterId;
-
     private RecyclerView messagesRecyclerView;
 
     @Override
@@ -35,19 +27,27 @@ public class ChatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
-        messagesRecyclerView = findViewById(R.id.messagesRecyclerView); // Updated ID
+        firestore = FirebaseFirestore.getInstance();
         messageEditText = findViewById(R.id.messageEditText);
         sendMessageButton = findViewById(R.id.sendMessageButton);
+        messagesRecyclerView = findViewById(R.id.messagesRecyclerView);
 
-        firestore = FirebaseFirestore.getInstance();
-
+        // Retrieve chatId and shelterId from Intent
         chatId = getIntent().getStringExtra("chatId");
         shelterId = getIntent().getStringExtra("shelterId");
+        String currentUserId = getIntent().getStringExtra("USER_ID");
 
-        // Updated to use a LinearLayoutManager
+        // Log the received IDs to check if they are passed correctly
+        Log.d("ChatActivity", "Received chatId: " + chatId + ", shelterId: " + shelterId + ", USER_ID: " + currentUserId);
+
+        if (currentUserId == null) {
+            Toast.makeText(this, "No user ID provided.", Toast.LENGTH_SHORT).show();
+            finish();  // Close activity if no user ID is provided
+            return;
+        }
+
         messagesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        // Passing the correct arguments to the adapter
-        messagesAdapter = new MessagesAdapter(this, new ArrayList<>(),getIntent().getStringExtra("USER_ID"));
+        messagesAdapter = new MessagesAdapter(this, new ArrayList<>(), currentUserId);
         messagesRecyclerView.setAdapter(messagesAdapter);
 
         fetchMessages();
@@ -74,7 +74,7 @@ public class ChatActivity extends AppCompatActivity {
             String messageText = messageEditText.getText().toString();
             if (!messageText.isEmpty()) {
                 Map<String, Object> message = new HashMap<>();
-                message.put("senderId", getIntent().getStringExtra("USER_ID") );
+                message.put("senderId", getIntent().getStringExtra("USER_ID"));
                 message.put("receiverId", shelterId);
                 message.put("text", messageText);
                 message.put("timestamp", System.currentTimeMillis());
