@@ -1,5 +1,6 @@
 package com.example.final_project;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import androidx.annotation.NonNull;
@@ -17,7 +18,7 @@ public class ViewAdoptionsActivity extends AppCompatActivity {
     private RecyclerView applicationsRecyclerView;
     private AdoptionApplicationAdapter adapter;
     private FirebaseFirestore firestore;
-    private FirebaseAuth auth;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,13 +32,14 @@ public class ViewAdoptionsActivity extends AppCompatActivity {
         applicationsRecyclerView.setAdapter(adapter);
 
         firestore = FirebaseFirestore.getInstance();
-        auth = FirebaseAuth.getInstance();
+
 
         fetchAdoptionApplications();
     }
 
     private void fetchAdoptionApplications() {
-        String currentUserId = auth.getCurrentUser().getUid();
+        Intent intent = getIntent();
+        String currentUserId = intent.getData().getUserInfo();
         firestore.collection("AdoptionApplications")
                 .whereEqualTo("shelterId", currentUserId)
                 .get()
