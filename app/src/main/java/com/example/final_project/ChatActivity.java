@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.auth.FirebaseAuth;
+
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
@@ -24,7 +24,7 @@ public class ChatActivity extends AppCompatActivity {
     private Button sendMessageButton;
     private MessagesAdapter messagesAdapter;
     private FirebaseFirestore firestore;
-    private FirebaseAuth auth;
+
     private String chatId;
     private String shelterId;
 
@@ -40,7 +40,6 @@ public class ChatActivity extends AppCompatActivity {
         sendMessageButton = findViewById(R.id.sendMessageButton);
 
         firestore = FirebaseFirestore.getInstance();
-        auth = FirebaseAuth.getInstance();
 
         chatId = getIntent().getStringExtra("chatId");
         shelterId = getIntent().getStringExtra("shelterId");
@@ -48,7 +47,7 @@ public class ChatActivity extends AppCompatActivity {
         // Updated to use a LinearLayoutManager
         messagesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         // Passing the correct arguments to the adapter
-        messagesAdapter = new MessagesAdapter(this, new ArrayList<>(), auth.getCurrentUser().getUid());
+        messagesAdapter = new MessagesAdapter(this, new ArrayList<>(),getIntent().getStringExtra("USER_ID"));
         messagesRecyclerView.setAdapter(messagesAdapter);
 
         fetchMessages();
@@ -75,7 +74,7 @@ public class ChatActivity extends AppCompatActivity {
             String messageText = messageEditText.getText().toString();
             if (!messageText.isEmpty()) {
                 Map<String, Object> message = new HashMap<>();
-                message.put("senderId", auth.getCurrentUser().getUid());
+                message.put("senderId", getIntent().getStringExtra("USER_ID") );
                 message.put("receiverId", shelterId);
                 message.put("text", messageText);
                 message.put("timestamp", System.currentTimeMillis());
