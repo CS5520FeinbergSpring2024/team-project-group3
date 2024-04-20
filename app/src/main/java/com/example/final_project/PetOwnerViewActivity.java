@@ -47,7 +47,9 @@ public class PetOwnerViewActivity extends AppCompatActivity {
 
         learnAboutAdoptionButton.setOnClickListener(v -> {
             // Pass the user ID if necessary or just open the static informational activity
-            startActivity(new Intent(PetOwnerViewActivity.this, AdoptionLessonActivity.class));
+            Intent intent = new Intent(PetOwnerViewActivity.this, AdoptionLessonActivity.class);
+            intent.putExtra("USER_ID", currentUserId);
+            startActivity(intent);
         });
 
         chatWithSheltersButton.setOnClickListener(v -> {

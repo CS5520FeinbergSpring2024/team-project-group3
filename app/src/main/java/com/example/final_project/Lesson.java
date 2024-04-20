@@ -4,6 +4,8 @@ public class Lesson {
     private String lessonId; // Unique identifier for each lesson
     private String title;
     private String description;
+
+    private String lesson;
     private String imageUrl; // Optional: URL to an image for the lesson
 
     // Default constructor is required for Firestore's automatic data mapping.
@@ -15,6 +17,14 @@ public class Lesson {
         this.title = title;
         this.description = description;
         this.imageUrl = imageUrl; // Initialize imageUrl if using images for lessons
+    }
+
+    public String getLesson() {
+        return lesson;
+    }
+
+    public void setLesson(String lesson) {
+        this.lesson = lesson;
     }
 
     // Getters and Setters
