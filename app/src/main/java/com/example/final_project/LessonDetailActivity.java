@@ -19,7 +19,6 @@ import java.util.HashMap;
 
 public class LessonDetailActivity extends AppCompatActivity {
     private FirebaseFirestore firestore;
-    private FirebaseAuth auth;
     private TextView titleTextView, contentTextView;
     private Button completeLessonButton;
     private String lessonId;
@@ -30,7 +29,6 @@ public class LessonDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_lesson_detail);
 
         firestore = FirebaseFirestore.getInstance();
-        auth = FirebaseAuth.getInstance();
 
         titleTextView = findViewById(R.id.lessonTitleTextView);
         contentTextView = findViewById(R.id.lessonContentTextView);
