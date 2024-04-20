@@ -1,10 +1,6 @@
 
 ## Pet Education App
 
-# Please read carefully before making further modifications to the App.
-# Please read carefully before making further modifications to the App.
-# Please read carefully before making further modifications to the App.
-
 ### Dakota's work Log
 (March 29th - March 30th) summary:
 * Changed Firebase rules so that firebase work successfully with activities.
@@ -17,12 +13,16 @@
 * Adding extra pet is simple: add required elements in that shelter.
 * Solved Github conflict.
 
+(April 20th) summary:
+* Added placeholders for breeds that don't have shelters displayed.
+* Added domestic animals as an option for breedlist.
+* Cleaned and updated Firebase.
+* Transferred the launch page from main to breedlistview.
+
 * * Next Tasks for Dakota: 
   * UI.
-  * Add placeholders for breeds that don't have shelters displayed.
-  * Add domestic animals (mud).
   * Add loading display to the recycler view until it loads.
-  * Add more data to the database.
+
 
 
 ## Installation

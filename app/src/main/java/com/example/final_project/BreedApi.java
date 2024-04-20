@@ -28,6 +28,14 @@ public class BreedApi {
     // https://developers.thecatapi.com/view-account/ylX4blBYT9FaoVd6OhvR?report=aZyiLrsCh#tag/Breeds/paths/~1breeds~1search/get
     public void fetchBreedData(String petType, FetchBreedDataCallback callback) {
         List<breedData> breedDataList = new ArrayList<>();
+        breedData domesticBreed = new breedData(
+                petType,
+                "Domestic " + petType,
+                "Cross-breeding pets for Adoption",
+                "/"
+        );
+        breedDataList.add(domesticBreed);
+
         executorService.execute(() -> {
             try {
                 String apiKey = "live_xouvzjH87bpes6UKhI4UKrLZkocBcRvfBiUcxFkyahpiBB6yQ931zs4n8q6lAw9a";

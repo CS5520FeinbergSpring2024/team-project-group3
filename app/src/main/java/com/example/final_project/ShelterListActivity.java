@@ -31,6 +31,7 @@ public class ShelterListActivity extends AppCompatActivity {
     private List<shelterData> shelterDataList;
 
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d("Shelter List Activity", "Shelter Act opened");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shelterlist);
 
@@ -86,9 +87,24 @@ public class ShelterListActivity extends AppCompatActivity {
                     // attach shelter elements to the new shelter object so that it can be added to the list and create the listView
                     // if it matches certain criteria.
                     shelterData s = new shelterData(shelterName, location, imageUrl, breeds, description, phoneNumber, address, yearOfBusiness, petDataList);
+                    String placeholderName = "Sorry No Shelters Available for " + breedName;
+                    String placeholderLocation = " ";
+                    List<String> placeholderBreeds = new ArrayList<>();
+                    String placeholderImageUrl = " ";
+                    String placeholderDescription = " ";
+                    String placeholderPhoneNumber = " ";
+                    String placeholderAddress = " ";
+                    String placeholderYearOfBusiness = " ";
+                    List<petData> placeholderPetData = new ArrayList<>();
+
+                    shelterData placeholder = new shelterData(placeholderName, placeholderLocation,placeholderImageUrl, placeholderBreeds, placeholderDescription, placeholderPhoneNumber, placeholderAddress, placeholderYearOfBusiness, placeholderPetData);
 //                    Log.d("updated shelter: ", s.getAddress() + s.getAdoptablePets().size());
                     if (s.containBreed(breedName)) {
                         shelterDataList.add(s);
+                        shelterListAdapter = new ShelterListAdapter(ShelterListActivity.this, shelterDataList);
+                        listViewShelters.setAdapter(shelterListAdapter);
+                    } else {
+                        shelterDataList.add(placeholder);
                         shelterListAdapter = new ShelterListAdapter(ShelterListActivity.this, shelterDataList);
                         listViewShelters.setAdapter(shelterListAdapter);
                     }
