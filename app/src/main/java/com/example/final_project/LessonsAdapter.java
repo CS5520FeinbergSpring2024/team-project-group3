@@ -2,6 +2,7 @@ package com.example.final_project;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,9 +38,16 @@ public class LessonsAdapter extends RecyclerView.Adapter<LessonsAdapter.LessonVi
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, LessonDetailActivity.class);
             intent.putExtra("lessonId", lesson.getLessonId());
+            intent.putExtra("userId", getCurrentUserId());
             context.startActivity(intent);
         });
     }
+
+    private String getCurrentUserId() {
+        SharedPreferences prefs = context.getSharedPreferences("AppPrefs", Context.MODE_PRIVATE);
+        return prefs.getString("UserID", null);  // Return null or a default value if no user ID is found
+    }
+
 
     @Override
     public int getItemCount() {
