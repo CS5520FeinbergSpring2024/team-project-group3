@@ -38,24 +38,24 @@ public class ShelterOwnerDashboardActivity extends AppCompatActivity {
         managePetsButton = findViewById(R.id.managePetsButton);
         viewChatsButton = findViewById(R.id.viewChatsButton);
 
-        manageSheltersButton.setOnClickListener(v -> startActivity(new Intent(ShelterOwnerDashboardActivity.this, ManageSheltersActivity.class).putExtra("USER_ID", currentUserId)));
+        manageSheltersButton.setOnClickListener(v -> startActivity(new Intent(ShelterOwnerDashboardActivity.this, ManageSheltersActivity.class).putExtra("UserID", currentUserId)));
 
         addPetsButton.setOnClickListener( v -> {
                     Intent intent = new Intent(ShelterOwnerDashboardActivity.this, PetRegistrationActivity.class);
-                    intent.putExtra("USER_ID", currentUserId);
+                    intent.putExtra("UserID", currentUserId);
                     startActivity(intent);
                 } );
 
 
-        viewAdoptionsButton.setOnClickListener(v -> startActivity(new Intent(ShelterOwnerDashboardActivity.this, ViewAdoptionsActivity.class).putExtra("USER_ID", currentUserId)));
+        viewAdoptionsButton.setOnClickListener(v -> startActivity(new Intent(ShelterOwnerDashboardActivity.this, ViewAdoptionsActivity.class).putExtra("UserID", currentUserId)));
 
         managePetsButton.setOnClickListener(v -> {
             Intent intent = new Intent(ShelterOwnerDashboardActivity.this, PetManagementActivity.class);
-            intent.putExtra("USER_ID", currentUserId);
+            intent.putExtra("UserID", currentUserId);
             startActivity(intent);
         });
 
-        viewChatsButton.setOnClickListener(v -> startActivity(new Intent(ShelterOwnerDashboardActivity.this, ChatListActivity.class).putExtra("USER_ID", currentUserId)));
+        viewChatsButton.setOnClickListener(v -> startActivity(new Intent(ShelterOwnerDashboardActivity.this, ChatListActivity.class).putExtra("UserID", currentUserId)));
     }
 
     private void saveUserIdToPreferences(String userId) {

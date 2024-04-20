@@ -1,7 +1,6 @@
 package com.example.final_project;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -46,49 +45,54 @@ public class RegisterActivity extends AppCompatActivity {
         buttonRegister.setOnClickListener(view -> registerUser());
     }
 
-    public void saveUserId(Context context, String userId) {
-        SharedPreferences prefs = context.getSharedPreferences("AppPrefs", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putString("UserID", userId);
-        editor.apply();
-    }
-
     private void registerUser() {
         String email = editTextEmail.getText().toString().trim();
         String username = editTextUsername.getText().toString().trim();
+        if (email.isEmpty() || username.isEmpty()) {
+            Toast.makeText(this, "Email and username cannot be empty", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         String role = radioButtonShelterOwner.isChecked() ? "shelter_owner" : "pet_owner";
 
         progressDialog.setMessage("Registering User...");
         progressDialog.show();
 
-        // Generate a unique ID for the user
-        String userId = UUID.randomUUID().toString();
+        String userId = UUID.randomUUID().toString();  // Generate a unique ID for the user
 
         Map<String, Object> userData = new HashMap<>();
         userData.put("username", username);
         userData.put("email", email);
         userData.put("role", role);
 
-        // Write data to the Realtime Database
         databaseReference.child(userId).setValue(userData)
                 .addOnCompleteListener(task -> {
                     progressDialog.dismiss();
                     if (task.isSuccessful()) {
-                        Toast.makeText(RegisterActivity.this, "Registration Successful", Toast.LENGTH_LONG).show();
-                        // Navigate to next activity based on the role
-                        Intent intent;
-                        saveUserId(RegisterActivity.this, userId);
-                        if ("shelter_owner".equals(role)) {
-                            intent = new Intent(RegisterActivity.this, ShelterOwnerDashboardActivity.class);
-                        } else {
-                            intent = new Intent(RegisterActivity.this, PetOwnerViewActivity.class);
-                        }
-                        intent.putExtra("USER_ID", userId); // Pass userId to the next activity
-                        startActivity(intent);
-                        finish();
+                        saveUserId(userId);  // Save user ID to SharedPreferences
+                        navigateToDashboard(role, userId);  // Navigate based on the user role
                     } else {
                         Toast.makeText(RegisterActivity.this, "Failed to register. Please try again.", Toast.LENGTH_LONG).show();
                     }
                 });
+    }
+
+    private void saveUserId(String userId) {
+        SharedPreferences prefs = getSharedPreferences("AppPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString("UserID", userId);
+        editor.apply();
+    }
+
+    private void navigateToDashboard(String role, String userId) {
+        Intent intent;
+        if ("shelter_owner".equals(role)) {
+            intent = new Intent(RegisterActivity.this, ShelterOwnerDashboardActivity.class);
+        } else {
+            intent = new Intent(RegisterActivity.this, PetOwnerViewActivity.class);
+        }
+        intent.putExtra("UserID", userId);
+        startActivity(intent);
+        finish();
     }
 }
