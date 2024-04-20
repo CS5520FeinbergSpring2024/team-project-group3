@@ -220,6 +220,7 @@ April 20, part 2
 
 Changes
 - Adjusted Firestore permissions to fix ShelterRegistration
+- Added Firebase auth to build.gradle
 
 New Todos:
 - As shelter user, "View Adoptions" crashes app
