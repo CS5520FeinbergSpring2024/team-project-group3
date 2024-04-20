@@ -75,6 +75,7 @@ public class AdoptionLessonActivity extends AppCompatActivity {
                 });
     }
 
+
     /**
      * Updates the user's progress for a given lesson.
      * @param lessonId The ID of the completed lesson.
