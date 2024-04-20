@@ -216,6 +216,15 @@ New Todos:
     - Likely due to mismatch between code's expected data structure and database contents
   - Chat with Shelters appears blank with Toast "No user email provided"
 
+April 20, part 2
+
+Changes
+- Adjusted Firestore permissions to fix ShelterRegistration
+
+New Todos:
+- As shelter user, "View Adoptions" crashes app
+- As pet user, "Browse Shelters" produces Toast "Failed to get current location" (device-dependent?)
+
 
 ### Dakota's work Log
 (March 29th - March 30th) summary:
