@@ -206,8 +206,15 @@ Changes:
 
 New Todos:
 - As shelter user, "Manage Pets" button returns Toast "Invalid Shelter ID" and does not display pets
+  - This is because user ID is passed in but shelter ID is needed
   - Also, why is Manage Pets separate from Add Pets vs the all-in-one Manage Shelters model?
 - Similarly, "View Chats" button returns Toast "No user email provided"
+- As pet user
+  - Browse Shelters appears blank even when directly on top of a shelter
+  - View Pets does nothing
+  - Learn About Adoption crashes
+    - Likely due to mismatch between code's expected data structure and database contents
+  - Chat with Shelters appears blank with Toast "No user email provided"
 
 
 ### Dakota's work Log
