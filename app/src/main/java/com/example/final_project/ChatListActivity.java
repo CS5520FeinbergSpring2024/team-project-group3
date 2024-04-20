@@ -64,6 +64,7 @@ public class ChatListActivity extends AppCompatActivity {
                 adapter.setChats(chats);
             }
 
+
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Log.e("ChatListActivity", "Error loading chats: " + databaseError.getMessage());
