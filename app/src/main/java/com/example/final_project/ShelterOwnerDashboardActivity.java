@@ -36,7 +36,12 @@ public class ShelterOwnerDashboardActivity extends AppCompatActivity {
 
         manageSheltersButton.setOnClickListener(v -> startActivity(new Intent(ShelterOwnerDashboardActivity.this, ManageSheltersActivity.class).putExtra("USER_ID", currentUserId)));
 
-        addPetsButton.setOnClickListener(v -> startActivity(new Intent(ShelterOwnerDashboardActivity.this, PetRegistrationActivity.class).putExtra("USER_ID", currentUserId)));
+        addPetsButton.setOnClickListener( v -> {
+                    Intent intent = new Intent(ShelterOwnerDashboardActivity.this, PetRegistrationActivity.class);
+                    intent.putExtra("USER_ID", currentUserId);
+                    startActivity(intent);
+                } );
+
 
         viewAdoptionsButton.setOnClickListener(v -> startActivity(new Intent(ShelterOwnerDashboardActivity.this, ViewAdoptionsActivity.class).putExtra("USER_ID", currentUserId)));
 

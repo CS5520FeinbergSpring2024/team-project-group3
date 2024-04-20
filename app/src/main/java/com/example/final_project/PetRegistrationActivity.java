@@ -29,7 +29,7 @@ public class PetRegistrationActivity extends AppCompatActivity {
 
     private FirebaseFirestore firestore;
     private FirebaseStorage storage;
-    private FirebaseAuth auth;
+
     private StorageReference storageReference;
 
     @Override
@@ -39,7 +39,6 @@ public class PetRegistrationActivity extends AppCompatActivity {
 
         firestore = FirebaseFirestore.getInstance();
         storage = FirebaseStorage.getInstance();
-        auth = FirebaseAuth.getInstance();
         storageReference = storage.getReference();
 
         petNameEditText = findViewById(R.id.petNameEditText);
