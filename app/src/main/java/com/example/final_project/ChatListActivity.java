@@ -45,7 +45,7 @@ public class ChatListActivity extends AppCompatActivity {
     }
 
     private String getUserIdFromPreferences() {
-        SharedPreferences sharedPreferences = getSharedPreferences("AppPreferences", MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences("AppPrefs", MODE_PRIVATE);
         return sharedPreferences.getString("UserID", null);
     }
 
