@@ -196,6 +196,19 @@ April 19
 Changes
 - ShelterRegistrationActivity now returns user to ManageSheltersActivity upon successful registration
 
+April 20
+
+Changes:
+- Fixed adding pets as shelter user, especially pet images:
+  - Added permissions requests and checks for images
+  - Temporary local file saving
+  - Set up Firebase Storage to hold images and eliminate errors
+
+New Todos:
+- As shelter user, "Manage Pets" button returns Toast "Invalid Shelter ID" and does not display pets
+  - Also, why is Manage Pets separate from Add Pets vs the all-in-one Manage Shelters model?
+- Similarly, "View Chats" button returns Toast "No user email provided"
+
 
 ### Dakota's work Log
 (March 29th - March 30th) summary:
