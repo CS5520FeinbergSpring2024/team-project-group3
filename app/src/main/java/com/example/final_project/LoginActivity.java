@@ -38,6 +38,9 @@ public class LoginActivity extends AppCompatActivity {
         buttonLogin = findViewById(R.id.buttonLogin);
         Button buttonGoToRegister = findViewById(R.id.buttonGoToRegister);
 
+        SharedPreferences sharedPreferences = getSharedPreferences("AppPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
         buttonLogin.setOnClickListener(view -> loginUser());
         buttonGoToRegister.setOnClickListener(view -> {
             Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
