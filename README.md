@@ -191,6 +191,11 @@ New Todos:
 - ShelterRegistrationActivity should return user to ManageSheltersActivity upon successful registration
 - Error when clicking on shelter in ManageSheltersActivity: geopoint cannot be cast to parcelable
 
+April 19
+
+Changes
+- ShelterRegistrationActivity now returns user to ManageSheltersActivity upon successful registration
+
 
 ### Dakota's work Log
 (March 29th - March 30th) summary:
