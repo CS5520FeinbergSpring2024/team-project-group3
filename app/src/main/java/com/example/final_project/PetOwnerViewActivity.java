@@ -20,7 +20,7 @@ public class PetOwnerViewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_pet_owner_view);
 
         // Retrieve the user ID from the intent
-        currentUserId = getIntent().getStringExtra("USER_ID");
+        currentUserId = getIntent().getStringExtra("UserID");
         if (currentUserId == null) {
             finish(); // Redirect to login screen or show an error because user ID is crucial
             return;
@@ -40,7 +40,7 @@ public class PetOwnerViewActivity extends AppCompatActivity {
         browseSheltersButton.setOnClickListener(v -> {
             // Pass the user ID to the ShelterListActivity
             Intent intent = new Intent(PetOwnerViewActivity.this, ShelterListActivity.class);
-            intent.putExtra("USER_ID", currentUserId);
+            intent.putExtra("UserID", currentUserId);
             startActivity(intent);
         });
 
@@ -48,14 +48,14 @@ public class PetOwnerViewActivity extends AppCompatActivity {
         learnAboutAdoptionButton.setOnClickListener(v -> {
             // Pass the user ID if necessary or just open the static informational activity
             Intent intent = new Intent(PetOwnerViewActivity.this, AdoptionLessonActivity.class);
-            intent.putExtra("USER_ID", currentUserId);
+            intent.putExtra("UserID", currentUserId);
             startActivity(intent);
         });
 
         chatWithSheltersButton.setOnClickListener(v -> {
             // Navigate to ChatListActivity, passing the user ID
             Intent intent = new Intent(PetOwnerViewActivity.this, ChatListActivity.class);
-            intent.putExtra("USER_ID", currentUserId);
+            intent.putExtra("UserID", currentUserId);
             startActivity(intent);
         });
     }

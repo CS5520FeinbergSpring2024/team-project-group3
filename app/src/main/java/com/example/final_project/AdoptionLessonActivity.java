@@ -81,7 +81,7 @@ public class AdoptionLessonActivity extends AppCompatActivity {
      */
     private void updateProgress(String lessonId) {
         Log.d(TAG, "Updating progress for lesson: " + lessonId);
-        String userId = getIntent().getStringExtra("USER_ID");
+        String userId = getIntent().getStringExtra("UserID");
         firestore.collection("Users").document(userId).collection("CompletedLessons").document(lessonId)
                 .set(new UserLessonProgress(lessonId, true))
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
