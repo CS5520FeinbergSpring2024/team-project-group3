@@ -10,11 +10,15 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -53,8 +57,31 @@ public class RegisterActivity extends AppCompatActivity {
             return;
         }
 
-        String role = radioButtonShelterOwner.isChecked() ? "shelter_owner" : "pet_owner";
+        progressDialog.setMessage("Checking Email...");
+        progressDialog.show();
 
+        // Check if the email is already in use
+        databaseReference.orderByChild("email").equalTo(email).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                progressDialog.dismiss();
+                if (dataSnapshot.exists()) {
+                    Toast.makeText(RegisterActivity.this, "Email already in use. Please use a different email.", Toast.LENGTH_LONG).show();
+                } else {
+                    createUser(email, username);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                progressDialog.dismiss();
+                Toast.makeText(RegisterActivity.this, "Failed to check email: " + databaseError.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private void createUser(String email, String username) {
+        String role = radioButtonShelterOwner.isChecked() ? "shelter_owner" : "pet_owner";
         progressDialog.setMessage("Registering User...");
         progressDialog.show();
 
