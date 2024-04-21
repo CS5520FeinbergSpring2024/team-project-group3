@@ -60,5 +60,12 @@
             android:text="Phone Number"
             android:padding="16dp"/>
 
+        <Button
+            android:id="@+id/homeButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:text="Home" />
+
     </LinearLayout>
 </ScrollView>

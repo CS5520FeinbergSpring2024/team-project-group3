@@ -1,7 +1,10 @@
 package com.example.final_project;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -18,6 +21,8 @@ public class PetAdoptableActivity extends AppCompatActivity {
 
     private ListView availablePetsList;
 
+    private Button homeBtn;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -30,11 +35,24 @@ public class PetAdoptableActivity extends AppCompatActivity {
         adoptionText = findViewById(R.id.adaptable_pet_text);
         shelterImage = findViewById(R.id.shelter_image);
         availablePetsList = findViewById(R.id.available_pets_list);
+        homeBtn = findViewById(R.id.homeButton);
 
 
-        shelterName.setText(shelterData.getName());
+        if (shelterData.getName().isEmpty() || shelterData.getName() == null) {
+            shelterName.setText("Name not displayed");
+        } else {
+            shelterName.setText(shelterData.getName());
+        }
+        Log.d("shelterData", shelterData.getName());
         adoptionText.setText("Pets Available for Adoption"); // redundant actually.
 
+        homeBtn.setOnClickListener((new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(PetAdoptableActivity.this, BreedViewActivity.class);
+                PetAdoptableActivity.this.startActivity(intent);
+            }
+        }));
 
         Glide.with(PetAdoptableActivity.this)
                 .load(shelterData.getImageUrl())

@@ -1,7 +1,10 @@
 package com.example.final_project;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -30,6 +33,8 @@ public class ShelterListActivity extends AppCompatActivity {
     private TextView breedNameTextView;
     private List<shelterData> shelterDataList;
 
+    private Button homeBtn;
+
     protected void onCreate(Bundle savedInstanceState) {
         Log.d("Shelter List Activity", "Shelter Act opened");
         super.onCreate(savedInstanceState);
@@ -39,12 +44,20 @@ public class ShelterListActivity extends AppCompatActivity {
         listViewShelters = findViewById(R.id.listViewShelter);
         shelterDataList = new ArrayList<>();
         breedNameTextView = findViewById(R.id.breed_name_text_view);
+        homeBtn = findViewById(R.id.homeButton);
 
         String breedName = getIntent().getStringExtra("breed_name");
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         breedNameTextView.setText(breedName.toUpperCase());
 
         DatabaseReference databaseReference = database.getReference("shelters");
+        homeBtn.setOnClickListener((new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ShelterListActivity.this, BreedViewActivity.class);
+                ShelterListActivity.this.startActivity(intent);
+            }
+        }));
 
         // Add ValueEventListener to fetch shelter data
         databaseReference.addValueEventListener(new ValueEventListener() {

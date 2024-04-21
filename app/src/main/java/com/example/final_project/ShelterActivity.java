@@ -24,6 +24,8 @@ public class ShelterActivity extends AppCompatActivity {
     private TextView addressText;
     private TextView phoneText;
 
+    private Button homeBtn;
+
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
@@ -39,11 +41,20 @@ public class ShelterActivity extends AppCompatActivity {
         petsButton = findViewById(R.id.adoption_button);
         addressText = findViewById(R.id.address_text);
         phoneText = findViewById(R.id.phone_number_text);
+        homeBtn = findViewById(R.id.homeButton);
 
         shelterNameText.setText(shelterData.getName());
         descriptionText.setText(shelterData.getDescription());
         addressText.setText("Address: " + shelterData.getAddress());
         phoneText.setText("Phone Number: " + shelterData.getPhoneNumber());
+
+        homeBtn.setOnClickListener((new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ShelterActivity.this, BreedViewActivity.class);
+                ShelterActivity.this.startActivity(intent);
+            }
+        }));
 
         Glide.with(ShelterActivity.this)
                 .load(shelterData.getImageUrl())

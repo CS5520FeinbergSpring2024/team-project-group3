@@ -4,25 +4,40 @@
 ### Dakota's work Log
 (March 29th - March 30th) summary:
 * Changed Firebase rules so that firebase work successfully with activities.
-* Adding extra breed is simple: add an image to drawable and add a pet type to the firebase.
-* Adding extra shelter is simple: add required elements to shelters in the firebase.
-* Successfully fetched API data to local.
+* Simplified logic of adding more other pet types:
+  * add an image to drawable and add a pet type to the firebase.
+* Simplified logic of adding more other shelters:
+  * add required elements to shelters in the firebase.
+* set firebase data structures for pet type, and shelters (including available pets).
+* Researched proper api that contains multiple pet types and information needed.
+* Fetched these API data to local objects so that information can be circulated in the app.
+* Created recycler views for pet type, listViews for list of breeds.
+* fixed all kinds of errors.
 
 (March 31th) summary:
 * Created a shelter detail page, adoptable pet list page and a pet detail page.
-* Adding extra pet is simple: add required elements in that shelter.
-* Solved Github conflict.
+* Wrote codes to view list of shelters, particular shelters, and list of pet information, particular pet info.
+* Solved Github conflicts by creating multiple branches and carefully merge unworking repo.
+* multiple errors fixed.
 
 (April 20th) summary:
 * Added placeholders for breeds that don't have shelters displayed.
 * Added domestic animals as an option for breedlist.
-* Cleaned and updated Firebase.
-* Transferred the launch page from main to breedlistview.
+* Cleaned and updated Firebase, inserted enough data for tests.
+* Transferred the launch page from main to breedlistView.
+* Debugged with multiple data.
+* fixed errors caused by emulator.
 
-* * Next Tasks for Dakota: 
-  * UI.
-  * Add loading display to the recycler view until it loads.
-
+(April 21th) summary:
+* Connected authentication of firebase to the app.
+* Constructed Login pages for the pet app.
+* Tested the login page so that login is working successfully in the pet app.
+* Added home buttons so that it's easier to go back home.
+* Improved constraint views so the view can be properly displayed in both landscape and portrait mode.
+* Searched and attached open online image for data.
+* Cleared and tidied the files.
+* Make Android Studio binds login page for launch.
+* fixed null pointer errors.
 
 
 ## Installation
@@ -136,6 +151,7 @@ check BreedAPI: apiKey
 
 - PetAdoptableActivity: shows a list of adoptable pets.
   - PetAdoptableAdapter: the adapter for each list item.
+- Login: helps users to login.
 
 
   
