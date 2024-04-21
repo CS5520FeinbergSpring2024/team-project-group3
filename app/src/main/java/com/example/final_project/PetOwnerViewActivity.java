@@ -11,38 +11,60 @@ public class PetOwnerViewActivity extends AppCompatActivity {
     private Button browseSheltersButton;
     private Button viewPetsButton;
     private Button learnAboutAdoptionButton;
+    private Button chatWithSheltersButton;
+    private String currentUserId; // Variable to hold the user ID
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pet_owner_view);
 
+        // Retrieve the user ID from the intent
+        currentUserId = getIntent().getStringExtra("UserID");
+        if (currentUserId == null) {
+            finish(); // Redirect to login screen or show an error because user ID is crucial
+            return;
+        }
+
+        initializeButtons();
+        setButtonListeners();
+    }
+
+    private void initializeButtons() {
         browseSheltersButton = findViewById(R.id.browseSheltersButton);
         viewPetsButton = findViewById(R.id.viewPetsButton);
         learnAboutAdoptionButton = findViewById(R.id.learnAboutAdoptionButton);
+        chatWithSheltersButton = findViewById(R.id.chatWithSheltersButton);
+    }
 
-        browseSheltersButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Intent to navigate to BrowseSheltersActivity
-                startActivity(new Intent(PetOwnerViewActivity.this, ShelterListActivity.class));
-            }
+    private void setButtonListeners() {
+        browseSheltersButton.setOnClickListener(v -> {
+            // Pass the user ID to the ShelterListActivity
+            Intent intent = new Intent(PetOwnerViewActivity.this, ShelterListActivity.class);
+            intent.putExtra("UserID", currentUserId);
+            startActivity(intent);
         });
 
-        viewPetsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Intent to navigate to ViewPetsActivity, which could be a detailed list or map
-//                startActivity(new Intent(PetOwnerViewActivity.this, PetListActivity.class));
-            }
+        viewPetsButton.setOnClickListener(v -> {
+            Intent intent = new Intent(PetOwnerViewActivity.this, PetListActivity.class);
+            intent.putExtra("shelterId", "shelterId1");
+            startActivity(intent);
         });
 
-        learnAboutAdoptionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Intent to navigate to LearnAboutAdoptionActivity
-                startActivity(new Intent(PetOwnerViewActivity.this, AdoptionLessonActivity.class));
-            }
+
+        learnAboutAdoptionButton.setOnClickListener(v -> {
+            // Pass the user ID if necessary or just open the static informational activity
+            Intent intent = new Intent(PetOwnerViewActivity.this, AdoptionLessonActivity.class);
+            intent.putExtra("UserID", currentUserId);
+            startActivity(intent);
+        });
+
+        chatWithSheltersButton.setOnClickListener(v -> {
+            // Navigate to ChatListActivity, passing the user ID
+            Intent intent = new Intent(PetOwnerViewActivity.this, ChatListActivity.class);
+            intent.putExtra("UserID", currentUserId);
+            startActivity(intent);
         });
     }
 }
+

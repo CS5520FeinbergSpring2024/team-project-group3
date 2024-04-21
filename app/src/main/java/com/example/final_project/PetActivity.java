@@ -23,7 +23,7 @@ public class PetActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pet);
-        petData currentPetData = getIntent().getParcelableExtra("currentPet");
+        Pet currentPet = getIntent().getParcelableExtra("currentPet");
         petName = findViewById(R.id.pet_name_text_view);
         petDescription = findViewById(R.id.pet_description_text);
         petGender = findViewById(R.id.pet_gender_text_view);
@@ -32,15 +32,15 @@ public class PetActivity extends AppCompatActivity {
         petFee = findViewById(R.id.pet_fee_text);
         petImage = findViewById(R.id.pet_image_view);
 
-        petName.setText(currentPetData.getName());
-        petDescription.setText(currentPetData.getDescription());
-        petGender.setText("Gender: " + currentPetData.getGender());
-        petAge.setText("Age: " + currentPetData.getAge());
-        petFee.setText("Price: "+ currentPetData.getPrice());
-        petBreed.setText("Breed: " + currentPetData.getBreed());
+        petName.setText(currentPet.getName());
+        petDescription.setText(currentPet.getDescription());
+        petGender.setText("Gender: " + currentPet.getGender());
+        petAge.setText("Age: " + currentPet.getAge());
+        petFee.setText("Price: "+ currentPet.getPrice());
+        petBreed.setText("Breed: " + currentPet.getBreed());
 
         Glide.with(PetActivity.this)
-                .load(currentPetData.getImageUrl())
+                .load(currentPet.getImageUrl())
                 .placeholder(R.drawable.brokenlink)
                 .into(petImage);
 
