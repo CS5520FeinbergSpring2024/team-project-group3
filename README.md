@@ -229,7 +229,8 @@ New Todos:
 April 21
 
 Changes
-- Reworked Lessons and associated pages within code and Firebase, solving major functionality issues
+- Reworked Lessons and associated adapters and activities within code and Firebase, solving major functionality issues
+- Redesigned pages involving Lessons to display correct information
 
 
 ### Dakota's work Log
