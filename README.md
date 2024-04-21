@@ -226,6 +226,11 @@ New Todos:
 - As shelter user, "View Adoptions" crashes app
 - As pet user, "Browse Shelters" produces Toast "Failed to get current location" (device-dependent?)
 
+April 21
+
+Changes
+- Reworked Lessons and associated pages within code and Firebase, solving major functionality issues
+
 
 ### Dakota's work Log
 (March 29th - March 30th) summary:

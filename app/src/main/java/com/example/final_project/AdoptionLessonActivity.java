@@ -10,12 +10,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Manages adoption education lessons for pet owners.
@@ -51,29 +57,31 @@ public class AdoptionLessonActivity extends AppCompatActivity {
      * Fetches lesson content from Firestore and updates the UI.
      */
     private void fetchLessons() {
-        Log.d(TAG, "Fetching lessons from Firestore");
-        firestore.collection("AdoptionLessons")
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        Log.d(TAG, "Successfully fetched lessons");
-                        lessonsList.clear();
-                        for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
-                            Lesson lesson = document.toObject(Lesson.class);
-                            lessonsList.add(lesson);
-                        }
-                        adapter.notifyDataSetChanged();
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("AdoptionLessons");
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                lessonsList.clear(); // Clear existing data
+                for (DataSnapshot lessonSnapshot : dataSnapshot.getChildren()) {
+                    // Assuming that your Lesson class has the same fields as the Realtime Database nodes
+                    Lesson lesson = lessonSnapshot.getValue(Lesson.class);
+                    if (lesson != null) {
+                        lessonsList.add(lesson);
                     }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.e(TAG, "Failed to fetch lessons: " + e.getMessage(), e);
-                        Toast.makeText(AdoptionLessonActivity.this, "Failed to fetch lessons: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
+                }
+                adapter.notifyDataSetChanged(); // Notify the adapter of data changes
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.w(TAG, "loadPost:onCancelled", databaseError.toException());
+                Toast.makeText(AdoptionLessonActivity.this, "Failed to load lessons.", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
+
+
+
 
     /**
      * Updates the user's progress for a given lesson.
