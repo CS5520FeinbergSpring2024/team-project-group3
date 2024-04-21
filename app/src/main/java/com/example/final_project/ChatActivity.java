@@ -35,10 +35,10 @@ public class ChatActivity extends AppCompatActivity {
         // Retrieve chatId and shelterId from Intent
         chatId = getIntent().getStringExtra("chatId");
         shelterId = getIntent().getStringExtra("shelterId");
-        String currentUserId = getIntent().getStringExtra("USER_ID");
+        String currentUserId = getIntent().getStringExtra("UserID");
 
         // Log the received IDs to check if they are passed correctly
-        Log.d("ChatActivity", "Received chatId: " + chatId + ", shelterId: " + shelterId + ", USER_ID: " + currentUserId);
+        Log.d("ChatActivity", "Received chatId: " + chatId + ", shelterId: " + shelterId + ", UserID: " + currentUserId);
 
         if (currentUserId == null) {
             Toast.makeText(this, "No user ID provided.", Toast.LENGTH_SHORT).show();
@@ -74,7 +74,7 @@ public class ChatActivity extends AppCompatActivity {
             String messageText = messageEditText.getText().toString();
             if (!messageText.isEmpty()) {
                 Map<String, Object> message = new HashMap<>();
-                message.put("senderId", getIntent().getStringExtra("USER_ID"));
+                message.put("senderId", getIntent().getStringExtra("UserID"));
                 message.put("receiverId", shelterId);
                 message.put("text", messageText);
                 message.put("timestamp", System.currentTimeMillis());

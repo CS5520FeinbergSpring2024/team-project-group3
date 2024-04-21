@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -39,25 +38,17 @@ public class LoginActivity extends AppCompatActivity {
         Button buttonGoToRegister = findViewById(R.id.buttonGoToRegister);
 
         buttonLogin.setOnClickListener(view -> loginUser());
-        buttonGoToRegister.setOnClickListener(view -> {
-            Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
-            startActivity(intent);
-        });
-
-
+        buttonGoToRegister.setOnClickListener(view -> startActivity(new Intent(LoginActivity.this, RegisterActivity.class)));
     }
-
-    // Example method to save user ID in SharedPreferences
-    public void saveUserId(Context context, String userId) {
-        SharedPreferences prefs = context.getSharedPreferences("AppPrefs", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putString("UserID", userId);
-        editor.apply();
-    }
-
 
     private void loginUser() {
         String email = editTextEmail.getText().toString().trim();
+
+        // Basic email validation
+        if (email.isEmpty()) {
+            editTextEmail.setError("Email cannot be empty");
+            return;
+        }
 
         Query query = databaseReference.orderByChild("email").equalTo(email);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -65,21 +56,8 @@ public class LoginActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
                     for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
-                        String userId = userSnapshot.getKey();
-                        String role = userSnapshot.child("role").getValue(String.class);
-                        Intent intent;
-                        saveUserId(LoginActivity.this, userId);
-                        if ("shelter_owner".equals(role)) {
-                            intent = new Intent(LoginActivity.this, ShelterOwnerDashboardActivity.class);
-                        } else if ("pet_owner".equals(role)) {
-                            intent = new Intent(LoginActivity.this, PetOwnerViewActivity.class);
-                        } else {
-                            Toast.makeText(LoginActivity.this, "Undefined user role.", Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-                        intent.putExtra("USER_ID", userId);
-                        startActivity(intent);
-                        finish();
+                        // Successfully logged in
+                        handleSuccessfulLogin(userSnapshot);
                     }
                 } else {
                     Toast.makeText(LoginActivity.this, "User does not exist.", Toast.LENGTH_SHORT).show();
@@ -93,6 +71,35 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void handleSuccessfulLogin(DataSnapshot userSnapshot) {
+        String userId = userSnapshot.getKey();
+        String role = userSnapshot.child("role").getValue(String.class);
+
+        Intent intent;
+        if ("shelter_owner".equals(role)) {
+            intent = new Intent(LoginActivity.this, ShelterOwnerDashboardActivity.class);
+        } else if ("pet_owner".equals(role)) {
+            intent = new Intent(LoginActivity.this, PetOwnerViewActivity.class);
+        } else {
+            Toast.makeText(LoginActivity.this, "Undefined user role.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        saveUserId(userId);
+        intent.putExtra("UserID", userId);
+        startActivity(intent);
+        finish();
+    }
+
+    // Save user ID in SharedPreferences
+    private void saveUserId(String userId) {
+        SharedPreferences prefs = getSharedPreferences("AppPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString("UserID", userId);
+        editor.apply();
+    }
 }
+
 
 
