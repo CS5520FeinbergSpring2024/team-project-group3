@@ -1,6 +1,8 @@
 package com.example.final_project;
 
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,10 +55,11 @@ public class PetsAdapter extends RecyclerView.Adapter<PetsAdapter.ViewHolder> {
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (clickListener != null) {
-                    Pet pet = petList.get(holder.getAdapterPosition());
-                    clickListener.onPetClick(pet);
-                }
+                Log.d("PetsAdapter", "Item clicked");
+                Pet pet = petList.get(holder.getAdapterPosition());
+                Intent intent = new Intent(context, PetDetailActivity.class);
+                intent.putExtra("petData", pet); // Assuming Pet class implements Parcelable
+                context.startActivity(intent);
             }
         });
     }
