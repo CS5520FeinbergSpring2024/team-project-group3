@@ -180,6 +180,61 @@ April 16
 Changes:
 - Built usable landscape layout for registration page
 
+April 17-18
+
+Changes
+- Created test pet user Test (test@gmail.com) and shelter user TestS(testS@gmail.com)
+- Fixed ShelterRegistrationActivity; error caused by geocoding on main thread had been preventing registration
+
+New Todos:
+- Some button(s) on PetOwnerViewActivity take user back to login
+- ShelterRegistrationActivity should return user to ManageSheltersActivity upon successful registration
+- Error when clicking on shelter in ManageSheltersActivity: geopoint cannot be cast to parcelable
+
+April 19
+
+Changes
+- ShelterRegistrationActivity now returns user to ManageSheltersActivity upon successful registration
+
+April 20
+
+Changes:
+- Fixed adding pets as shelter user, especially pet images:
+  - Added permissions requests and checks for images
+  - Temporary local file saving
+  - Set up Firebase Storage to hold images and eliminate errors
+
+New Todos:
+- As shelter user, "Manage Pets" button returns Toast "Invalid Shelter ID" and does not display pets
+  - This is because user ID is passed in but shelter ID is needed
+  - Also, why is Manage Pets separate from Add Pets vs the all-in-one Manage Shelters model?
+- Similarly, "View Chats" button returns Toast "No user email provided"
+- As pet user
+  - Browse Shelters appears blank even when directly on top of a shelter
+  - View Pets does nothing
+  - Learn About Adoption crashes
+    - Likely due to mismatch between code's expected data structure and database contents
+  - Chat with Shelters appears blank with Toast "No user email provided"
+
+April 20, part 2
+
+Changes
+- Adjusted Firestore permissions to fix ShelterRegistration
+- Added Firebase auth to build.gradle
+
+New Todos:
+- As shelter user, "View Adoptions" crashes app
+- As pet user, "Browse Shelters" produces Toast "Failed to get current location" (device-dependent?)
+
+April 21
+
+Changes
+- Reworked Lessons and associated adapters and activities within code and Firebase, solving major functionality issues
+- Redesigned pages involving Lessons to display correct information
+- Reworked Pets and PetListActivity
+- Introduced new functionality allowing pet owners to view available pets with the "View Pets" button
+- Reworked PetDetailActivity to properly show pet data.
+
 
 ### Dakota's work Log
 (March 29th - March 30th) summary:

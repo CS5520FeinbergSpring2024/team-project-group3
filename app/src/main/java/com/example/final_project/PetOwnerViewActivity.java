@@ -32,6 +32,7 @@ public class PetOwnerViewActivity extends AppCompatActivity {
 
     private void initializeButtons() {
         browseSheltersButton = findViewById(R.id.browseSheltersButton);
+        viewPetsButton = findViewById(R.id.viewPetsButton);
         learnAboutAdoptionButton = findViewById(R.id.learnAboutAdoptionButton);
         chatWithSheltersButton = findViewById(R.id.chatWithSheltersButton);
     }
@@ -41,6 +42,12 @@ public class PetOwnerViewActivity extends AppCompatActivity {
             // Pass the user ID to the ShelterListActivity
             Intent intent = new Intent(PetOwnerViewActivity.this, ShelterListActivity.class);
             intent.putExtra("UserID", currentUserId);
+            startActivity(intent);
+        });
+
+        viewPetsButton.setOnClickListener(v -> {
+            Intent intent = new Intent(PetOwnerViewActivity.this, PetListActivity.class);
+            intent.putExtra("shelterId", "shelterId1");
             startActivity(intent);
         });
 

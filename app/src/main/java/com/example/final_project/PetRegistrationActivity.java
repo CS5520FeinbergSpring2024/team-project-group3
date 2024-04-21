@@ -2,8 +2,10 @@ package com.example.final_project;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,6 +14,9 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import android.Manifest;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -19,6 +24,10 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 
 public class PetRegistrationActivity extends AppCompatActivity {
     private EditText petNameEditText, petBreedEditText, petAgeEditText, petDescriptionEditText, petGenderEditText, petPriceEditText, petTypeEditText;
@@ -30,6 +39,8 @@ public class PetRegistrationActivity extends AppCompatActivity {
     private FirebaseStorage storage;
 
     private StorageReference storageReference;
+
+    private static final int READ_MEDIA_IMAGES_REQUEST_CODE = 101;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,10 +63,11 @@ public class PetRegistrationActivity extends AppCompatActivity {
         petImageView = findViewById(R.id.petImageView);
 
         uploadImageButton.setOnClickListener(v -> {
-            Intent intent = new Intent();
-            intent.setType("image/*");
-            intent.setAction(Intent.ACTION_GET_CONTENT);
-            startActivityForResult(Intent.createChooser(intent, "Select Picture"), 1);
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_IMAGES) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_MEDIA_IMAGES}, READ_MEDIA_IMAGES_REQUEST_CODE);
+            } else {
+                openImagePicker();
+            }
         });
 
         submitPetButton.setOnClickListener(v -> {
@@ -65,6 +77,25 @@ public class PetRegistrationActivity extends AppCompatActivity {
                 Toast.makeText(PetRegistrationActivity.this, "Please upload an image", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void openImagePicker() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), 1);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == READ_MEDIA_IMAGES_REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                openImagePicker();
+            } else {
+                Toast.makeText(this, "Permission denied to read your External storage", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     @Override
@@ -77,9 +108,31 @@ public class PetRegistrationActivity extends AppCompatActivity {
     }
 
     private void uploadImageAndSavePetInfo() {
-        final StorageReference filePath = storageReference.child("pet_images").child(imageUri.getLastPathSegment());
-        filePath.putFile(imageUri).addOnSuccessListener(taskSnapshot -> filePath.getDownloadUrl().addOnSuccessListener(uri -> savePetInfo(uri.toString())))
-                .addOnFailureListener(e -> Toast.makeText(PetRegistrationActivity.this, "Failed to upload image: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+        try {
+            // Create a local file from URI
+            File localFile = File.createTempFile("images", "jpg");
+            InputStream inputStream = getContentResolver().openInputStream(imageUri);
+            FileOutputStream fileOutputStream = new FileOutputStream(localFile);
+            byte[] buffer = new byte[1024];
+            int length;
+            while ((length = inputStream.read(buffer)) > 0) {
+                fileOutputStream.write(buffer, 0, length);
+            }
+            inputStream.close();
+            fileOutputStream.close();
+
+            // Create a file reference
+            final StorageReference filePath = storageReference.child("pet_images/" + localFile.getName());
+            UploadTask uploadTask = filePath.putFile(Uri.fromFile(localFile));
+
+            // Handle success and failure
+            uploadTask.addOnSuccessListener(taskSnapshot -> filePath.getDownloadUrl().addOnSuccessListener(uri -> savePetInfo(uri.toString())))
+                    .addOnFailureListener(e -> Toast.makeText(PetRegistrationActivity.this, "Failed to upload image: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Failed to create a file from image.", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void savePetInfo(String imageUrl) {

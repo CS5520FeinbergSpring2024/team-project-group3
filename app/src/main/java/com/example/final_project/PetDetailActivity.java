@@ -22,7 +22,10 @@ public class PetDetailActivity extends AppCompatActivity {
             ((TextView) findViewById(R.id.pet_gender)).setText(pet.getGender());
 
             ImageView petImageView = findViewById(R.id.pet_image);
-            Glide.with(this).load(pet.getImageUrl()).into(petImageView);
+            Glide.with(this)
+                    .load(pet.getImageUrl())
+                    .placeholder(R.drawable.dog_type) // Fallback image
+                    .into(petImageView);
         }
     }
 }

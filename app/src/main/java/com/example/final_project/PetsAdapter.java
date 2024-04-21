@@ -1,6 +1,8 @@
 package com.example.final_project;
 
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,22 +42,24 @@ public class PetsAdapter extends RecyclerView.Adapter<PetsAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Pet pet = petList.get(position);
-        holder.petName.setText(pet.getName());
-        holder.petBreed.setText(pet.getBreed());
-
-        // Use Glide to load the pet image dynamically from a URL provided by the pet data
-        Glide.with(context)
-                .load(pet.getImageUrl())
-                .placeholder(R.drawable.dog_type) // Fallback image
-                .into(holder.petImage);
-
+        if (holder.petName != null) {
+            holder.petName.setText(pet.getName()); // Use petName, updated to match XML
+        }
+        if (holder.petImage != null) {
+            // Use Glide to load the pet image dynamically from a URL provided by the pet data
+            Glide.with(context)
+                    .load(pet.getImageUrl())
+                    .placeholder(R.drawable.dog_type) // Fallback image
+                    .into(holder.petImage);
+        }
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (clickListener != null) {
-                    Pet pet = petList.get(holder.getAdapterPosition());
-                    clickListener.onPetClick(pet);
-                }
+                Log.d("PetsAdapter", "Item clicked");
+                Pet pet = petList.get(holder.getAdapterPosition());
+                Intent intent = new Intent(context, PetDetailActivity.class);
+                intent.putExtra("petData", pet); // Assuming Pet class implements Parcelable
+                context.startActivity(intent);
             }
         });
     }
@@ -74,15 +78,15 @@ public class PetsAdapter extends RecyclerView.Adapter<PetsAdapter.ViewHolder> {
 
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView petName, petBreed;
+        TextView petName;
         ImageView petImage;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            petName = itemView.findViewById(R.id.pet_name);
-            petBreed = itemView.findViewById(R.id.pet_breed);
-            petImage = itemView.findViewById(R.id.pet_image);
+            petName = itemView.findViewById(R.id.petTypeName);
+            petImage = itemView.findViewById(R.id.petTypeImage);
         }
     }
+
 }
 

@@ -37,7 +37,7 @@ public class LessonsAdapter extends RecyclerView.Adapter<LessonsAdapter.LessonVi
 
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, LessonDetailActivity.class);
-            intent.putExtra("lessonId", lesson.getLessonId());
+            intent.putExtra("lessonId", lesson.getLessonID());
             intent.putExtra("userId", getCurrentUserId());
             context.startActivity(intent);
         });

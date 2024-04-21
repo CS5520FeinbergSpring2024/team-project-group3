@@ -8,6 +8,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
@@ -46,23 +51,27 @@ public class PetListActivity extends AppCompatActivity {
     }
 
     private void fetchPets(String shelterId) {
-        firestore.collection("Pets")
-                .whereEqualTo("shelterId", shelterId)
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        List<Pet> pets = new ArrayList<>();
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            pets.add(document.toObject(Pet.class));
-                        }
-                        if (!pets.isEmpty()) {
+        DatabaseReference petsRef = FirebaseDatabase.getInstance().getReference("Pets");
+        petsRef.orderByChild("shelterId").equalTo(shelterId)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.exists()) {
+                            List<Pet> pets = new ArrayList<>();
+                            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                Pet pet = snapshot.getValue(Pet.class);
+                                pets.add(pet);
+                            }
                             adapter.updatePets(pets);
                         } else {
-                            Toast.makeText(this, "No pets available at this shelter.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(PetListActivity.this, "No pets available at this shelter.", Toast.LENGTH_SHORT).show();
                         }
-                    } else {
-                        Log.e("PetListActivity", "Error loading pets: ", task.getException());
-                        Toast.makeText(this, "Error fetching pets from database.", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Log.e("PetListActivity", "Error loading pets: " + databaseError.getMessage());
+                        Toast.makeText(PetListActivity.this, "Error fetching pets from database.", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
