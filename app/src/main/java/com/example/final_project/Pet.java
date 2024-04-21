@@ -20,7 +20,9 @@ public class Pet implements Parcelable {
     private String breed;
     private String price;
 
-    // Constructor
+    public Pet() {
+    }
+
     public Pet(String type, String age, String description, String gender, String id, String imageUrl, String name, String breed, String price) {
         this.type = type;
         this.age = age;
