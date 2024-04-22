@@ -54,6 +54,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.Messag
         notifyDataSetChanged();
     }
 
+
     public static class MessageViewHolder extends RecyclerView.ViewHolder {
         public TextView messageTextView;
 

@@ -30,10 +30,8 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Chat chat = chats.get(position);
-        // Set the last message text and timestamp
         holder.lastMessageTextView.setText(chat.getLastMessage());
-        // Convert timestamp to readable date and set it, just an example placeholder
-        holder.timestampTextView.setText(String.valueOf(chat.getLastMessageTimestamp()));
+        holder.timestampTextView.setText(new java.text.SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(new java.util.Date(chat.getLastMessageTimestamp())));
     }
 
     @Override
@@ -56,3 +54,4 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
         }
     }
 }
+

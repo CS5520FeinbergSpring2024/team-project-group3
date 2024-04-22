@@ -54,16 +54,21 @@ public class ChatListActivity extends AppCompatActivity {
         chatsQuery.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                List<Chat> chats = new ArrayList<>();
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    Chat chat = snapshot.getValue(Chat.class);
-                    if (chat != null) {
+                if (dataSnapshot.exists()) {
+                    List<Chat> chats = new ArrayList<>();
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        Chat chat = snapshot.getValue(Chat.class);
                         chats.add(chat);
                     }
+                    if (chats.isEmpty()) {
+                        Toast.makeText(ChatListActivity.this, "No chats available", Toast.LENGTH_SHORT).show();
+                    } else {
+                        adapter.setChats(chats);
+                    }
+                } else {
+                    Toast.makeText(ChatListActivity.this, "No chat data found", Toast.LENGTH_LONG).show();
                 }
-                adapter.setChats(chats);
             }
-
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -72,5 +77,6 @@ public class ChatListActivity extends AppCompatActivity {
             }
         });
     }
+
 }
 
