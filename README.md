@@ -233,7 +233,9 @@ Changes
 - Redesigned pages involving Lessons to display correct information
 - Reworked Pets and PetListActivity
 - Introduced new functionality allowing pet owners to view available pets with the "View Pets" button
-- Reworked PetDetailActivity to properly show pet data.
+- Reworked PetDetailActivity to properly show pet data
+- Fixed crash in ViewAdoptionsActivity
+- Adjusted Login landscape layout
 
 
 ### Dakota's work Log
